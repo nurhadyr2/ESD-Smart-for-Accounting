@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
+import '../theme/app_text_styles.dart';
 import '../data/app_data.dart';
 import '../components/app_cards.dart';
 import '../components/app_typography.dart';
@@ -68,7 +69,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.primary,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppTheme.radiusLarge),
       ),
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -85,15 +86,10 @@ class _HomePageState extends State<HomePage> {
                 child: const Icon(Icons.eco, color: Colors.white, size: 22),
               ),
               const SizedBox(width: 10),
-              const Expanded(
+              Expanded(
                 child: Text(
                   'Selamat Datang di\nESD for Accounting',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                    height: 1.3,
-                  ),
+                  style: AppTextStyles.onPrimaryTitle,
                 ),
               ),
             ],
@@ -101,11 +97,7 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(height: 10),
           Text(
             'Media Pembelajaran Akuntansi Praktis & Offline dengan wawasan manufaktur hijau.',
-            style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.85),
-              fontSize: 12,
-              height: 1.5,
-            ),
+            style: AppTextStyles.onPrimaryBody,
           ),
           const SizedBox(height: 14),
           Row(
@@ -136,7 +128,7 @@ class _HomePageState extends State<HomePage> {
             Icon(icon, color: Colors.white, size: 11),
             const SizedBox(width: 4),
           ],
-          Text(text, style: const TextStyle(color: Colors.white, fontSize: 10)),
+          Text(text, style: AppTextStyles.onPrimaryLabel),
         ],
       ),
     );
@@ -217,7 +209,10 @@ class _HomePageState extends State<HomePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle(title: 'Manufaktur Hijau', trailing: 'GREEN MANUFACTURING'),
+        const SectionTitle(
+          title: 'Manufaktur Hijau',
+          trailing: 'GREEN MANUFACTURING',
+        ),
         const SizedBox(height: 10),
         SizedBox(
           height: 110,
@@ -257,7 +252,7 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
             color: AppColors.accentLight,
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
             border: Border.all(color: AppColors.border),
           ),
           child: Row(
@@ -268,17 +263,19 @@ class _HomePageState extends State<HomePage> {
                   color: AppColors.primary.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Icon(Icons.lightbulb, color: AppColors.primary, size: 22),
+                child: const Icon(
+                  Icons.lightbulb,
+                  color: AppColors.primary,
+                  size: 22,
+                ),
               ),
               const SizedBox(width: 12),
-              const Expanded(
+              Expanded(
                 child: Text(
                   '"Akuntansi adalah bahasa bisnis. Dengan menguasai siklusnya, Anda memahami aliran darah setiap organisasi — termasuk organisasi hijau."',
-                  style: TextStyle(
-                    fontSize: 11.5,
+                  style: AppTextStyles.bodySmall.copyWith(
                     fontStyle: FontStyle.italic,
                     color: AppColors.text,
-                    height: 1.5,
                   ),
                 ),
               ),
@@ -321,29 +318,11 @@ class _MenuCardBig extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-          Text(
-            eyebrow,
-            style: const TextStyle(
-              fontSize: 9.5,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 0.5,
-              color: AppColors.textDim,
-            ),
-          ),
+          Text(eyebrow, style: AppTextStyles.label),
           const SizedBox(height: 2),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-              color: AppColors.text,
-            ),
-          ),
+          Text(title, style: AppTextStyles.title),
           const SizedBox(height: 3),
-          Text(
-            subtitle,
-            style: const TextStyle(fontSize: 11, color: AppColors.textDim),
-          ),
+          Text(subtitle, style: AppTextStyles.bodySmall),
         ],
       ),
     );
@@ -376,18 +355,11 @@ class _MiniMenuCard extends StatelessWidget {
         children: [
           IconBox(icon: data.icon, size: 30, iconSize: 16),
           const Spacer(),
-          Text(
-            data.title,
-            style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.bold,
-              color: AppColors.text,
-            ),
-          ),
+          Text(data.title, style: AppTextStyles.titleSmall),
           const SizedBox(height: 2),
           Text(
             data.subtitle,
-            style: const TextStyle(fontSize: 10, color: AppColors.textDim),
+            style: AppTextStyles.caption,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -407,7 +379,7 @@ class _NewsCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.card,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
         border: Border.all(color: AppColors.border),
       ),
       clipBehavior: Clip.antiAlias,
@@ -417,9 +389,7 @@ class _NewsCard extends StatelessWidget {
           Container(
             height: 72,
             width: double.infinity,
-            decoration: const BoxDecoration(
-              color: AppColors.primary,
-            ),
+            color: AppColors.primary,
             child: Stack(
               children: [
                 Positioned(
@@ -436,16 +406,17 @@ class _NewsCard extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
                         news.category,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 9.5,
+                        style: AppTextStyles.onPrimaryLabel.copyWith(
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -463,12 +434,7 @@ class _NewsCard extends StatelessWidget {
                 children: [
                   Text(
                     news.title,
-                    style: const TextStyle(
-                      fontSize: 12.5,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.text,
-                      height: 1.3,
-                    ),
+                    style: AppTextStyles.bodyMedium.copyWith(height: 1.3),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -476,11 +442,7 @@ class _NewsCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       news.summary,
-                      style: const TextStyle(
-                        fontSize: 10.5,
-                        color: AppColors.textDim,
-                        height: 1.4,
-                      ),
+                      style: AppTextStyles.bodySmall.copyWith(height: 1.4),
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -513,7 +475,7 @@ class _GreenChip extends StatelessWidget {
       margin: const EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
         color: AppColors.card,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
         border: Border.all(color: AppColors.border),
       ),
       child: Column(
@@ -531,10 +493,9 @@ class _GreenChip extends StatelessWidget {
           Text(
             label,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.w600,
+            style: AppTextStyles.caption.copyWith(
               color: AppColors.text,
+              fontWeight: FontWeight.w600,
               height: 1.3,
             ),
           ),

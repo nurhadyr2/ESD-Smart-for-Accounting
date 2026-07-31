@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
+import '../theme/app_text_styles.dart';
 
+/// Kepala halaman — judul besar + deskripsi singkat.
 class PageHeader extends StatelessWidget {
   final String title;
   final String subtitle;
@@ -12,28 +14,15 @@ class PageHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: AppColors.text,
-          ),
-        ),
+        Text(title, style: AppTextStyles.headline),
         const SizedBox(height: 6),
-        Text(
-          subtitle,
-          style: const TextStyle(
-            fontSize: 12.5,
-            color: AppColors.textDim,
-            height: 1.5,
-          ),
-        ),
+        Text(subtitle, style: AppTextStyles.bodySmall.copyWith(height: 1.5)),
       ],
     );
   }
 }
 
+/// Judul section dengan label kecil di kanan.
 class SectionTitle extends StatelessWidget {
   final String title;
   final String trailing;
@@ -45,35 +34,21 @@ class SectionTitle extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: AppColors.text,
-          ),
-        ),
+        Text(title, style: AppTextStyles.title),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
           decoration: BoxDecoration(
             color: AppColors.accentLight,
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Text(
-            trailing,
-            style: const TextStyle(
-              fontSize: 9,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 0.5,
-              color: AppColors.primary,
-            ),
-          ),
+          child: Text(trailing, style: AppTextStyles.labelPrimary),
         ),
       ],
     );
   }
 }
 
+/// Label berbentuk pil kecil.
 class ChipLabel extends StatelessWidget {
   final String text;
   final Color? color;
@@ -91,10 +66,9 @@ class ChipLabel extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: TextStyle(
-          fontSize: 9.5,
-          fontWeight: FontWeight.bold,
+        style: AppTextStyles.caption.copyWith(
           color: textColor ?? AppColors.primary,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );

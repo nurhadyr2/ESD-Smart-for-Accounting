@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
+import '../theme/app_text_styles.dart';
 import '../data/app_data.dart';
 import '../components/app_typography.dart';
 import '../components/app_buttons.dart';
@@ -53,11 +54,13 @@ class FileListPage extends StatelessWidget {
       children: [
         PageHeader(title: title, subtitle: subtitle),
         const SizedBox(height: 16),
-        ...items.map((item) => _FileCard(
-              item: item,
-              showButtons: showButtons,
-              onOpen: () => _openLink(context, item.url),
-            )),
+        ...items.map(
+          (item) => _FileCard(
+            item: item,
+            showButtons: showButtons,
+            onOpen: () => _openLink(context, item.url),
+          ),
+        ),
       ],
     );
   }
@@ -81,7 +84,7 @@ class _FileCard extends StatelessWidget {
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: AppColors.card,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
         border: Border.all(color: AppColors.border),
       ),
       child: Column(
@@ -104,22 +107,11 @@ class _FileCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      item.title,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.text,
-                      ),
-                    ),
+                    Text(item.title, style: AppTextStyles.titleSmall),
                     const SizedBox(height: 3),
                     Text(
                       item.description,
-                      style: const TextStyle(
-                        fontSize: 11,
-                        color: AppColors.textDim,
-                        height: 1.45,
-                      ),
+                      style: AppTextStyles.bodySmall.copyWith(height: 1.45),
                     ),
                   ],
                 ),
@@ -129,12 +121,13 @@ class _FileCard extends StatelessWidget {
           const SizedBox(height: 8),
           Row(
             children: [
-              const Icon(Icons.insert_drive_file, size: 12, color: AppColors.textDim),
-              const SizedBox(width: 5),
-              Text(
-                item.meta,
-                style: const TextStyle(fontSize: 10, color: AppColors.textDim),
+              const Icon(
+                Icons.insert_drive_file,
+                size: 12,
+                color: AppColors.textDim,
               ),
+              const SizedBox(width: 5),
+              Text(item.meta, style: AppTextStyles.caption),
             ],
           ),
           if (showButtons) ...[

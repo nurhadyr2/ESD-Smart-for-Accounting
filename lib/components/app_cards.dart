@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
+import '../theme/app_text_styles.dart';
 
+/// Kartu dasar aplikasi — putih, border halus, radius konsisten.
 class AppCard extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry padding;
@@ -21,7 +23,7 @@ class AppCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final borderRadius = BorderRadius.circular(16);
+    final borderRadius = BorderRadius.circular(AppTheme.radiusLarge);
     return Container(
       margin: margin,
       child: Material(
@@ -44,6 +46,7 @@ class AppCard extends StatelessWidget {
   }
 }
 
+/// Kotak ikon dengan latar sage muda.
 class IconBox extends StatelessWidget {
   final IconData icon;
   final double size;
@@ -74,7 +77,7 @@ class IconBox extends StatelessWidget {
   }
 }
 
-/// Header card dengan warna solid (tanpa gradient)
+/// Kartu header berwarna solid (tanpa gradient).
 class SolidHeaderCard extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -96,7 +99,7 @@ class SolidHeaderCard extends StatelessWidget {
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppTheme.radiusLarge),
       ),
       child: Row(
         children: [
@@ -113,22 +116,9 @@ class SolidHeaderCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                Text(title, style: AppTextStyles.onPrimaryTitle),
                 const SizedBox(height: 2),
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.85),
-                    fontSize: 11.5,
-                  ),
-                ),
+                Text(subtitle, style: AppTextStyles.onPrimaryBody),
               ],
             ),
           ),
@@ -138,7 +128,7 @@ class SolidHeaderCard extends StatelessWidget {
   }
 }
 
-/// Alias untuk backward compatibility — sekarang menggunakan solid color
+/// Alias kompatibilitas — kini menggunakan warna solid.
 class GradientHeaderCard extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -155,13 +145,11 @@ class GradientHeaderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Gunakan warna pertama dari list, atau primary sebagai default
-    final bgColor = colors?.first ?? AppColors.primary;
     return SolidHeaderCard(
       icon: icon,
       title: title,
       subtitle: subtitle,
-      color: bgColor,
+      color: colors?.first ?? AppColors.primary,
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
+import '../theme/app_text_styles.dart';
 import '../data/app_data.dart';
 import '../components/app_cards.dart';
 import '../components/app_typography.dart';
@@ -87,22 +88,11 @@ class _QuizPageState extends State<QuizPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Quiz Evaluasi',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.text,
-                      ),
-                    ),
+                    Text('Quiz Evaluasi', style: AppTextStyles.title),
                     const SizedBox(height: 6),
-                    const Text(
+                    Text(
                       'Jawablah 25 pertanyaan berikut untuk menguji pemahaman Anda. Skor akan dihitung otomatis setelah menekan tombol Submit.',
-                      style: TextStyle(
-                        fontSize: 11.5,
-                        color: AppColors.textDim,
-                        height: 1.5,
-                      ),
+                      style: AppTextStyles.bodySmall.copyWith(height: 1.5),
                     ),
                     const SizedBox(height: 10),
                     Row(
@@ -114,16 +104,16 @@ class _QuizPageState extends State<QuizPage> {
                               value: _answeredCount / quizList.length,
                               minHeight: 6,
                               backgroundColor: AppColors.border,
-                              valueColor: const AlwaysStoppedAnimation(AppColors.primary),
+                              valueColor: const AlwaysStoppedAnimation(
+                                AppColors.primary,
+                              ),
                             ),
                           ),
                         ),
                         const SizedBox(width: 10),
                         Text(
                           '$_answeredCount/${quizList.length}',
-                          style: const TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
+                          style: AppTextStyles.bodySmallMedium.copyWith(
                             color: AppColors.primary,
                           ),
                         ),
@@ -150,7 +140,9 @@ class _QuizPageState extends State<QuizPage> {
               child: ElevatedButton.icon(
                 onPressed: _submit,
                 icon: const Icon(Icons.check_circle_outline, size: 18),
-                label: Text('Submit Jawaban ($_answeredCount/${quizList.length})'),
+                label: Text(
+                  'Submit Jawaban ($_answeredCount/${quizList.length})',
+                ),
               ),
             ),
           ),
@@ -171,11 +163,7 @@ class _QuizPageState extends State<QuizPage> {
             children: [
               Text(
                 'PERTANYAAN ${index + 1} / ${quizList.length}',
-                style: const TextStyle(
-                  fontSize: 10.5,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textDim,
-                ),
+                style: AppTextStyles.label,
               ),
               ChipLabel(text: q.category),
             ],
@@ -183,12 +171,7 @@ class _QuizPageState extends State<QuizPage> {
           const SizedBox(height: 8),
           Text(
             q.question,
-            style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: AppColors.text,
-              height: 1.4,
-            ),
+            style: AppTextStyles.bodyMedium.copyWith(height: 1.4),
           ),
           const SizedBox(height: 10),
           ...List.generate(q.options.length, (optIdx) {
@@ -197,10 +180,13 @@ class _QuizPageState extends State<QuizPage> {
               onTap: () => setState(() => _answers[index] = optIdx),
               child: Container(
                 margin: const EdgeInsets.only(bottom: 8),
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 11,
+                ),
                 decoration: BoxDecoration(
                   color: selected ? AppColors.accentLight : AppColors.card,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
                   border: Border.all(
                     color: selected ? AppColors.primary : AppColors.border,
                     width: selected ? 1.5 : 1,
@@ -209,7 +195,9 @@ class _QuizPageState extends State<QuizPage> {
                 child: Row(
                   children: [
                     Icon(
-                      selected ? Icons.radio_button_checked : Icons.radio_button_off,
+                      selected
+                          ? Icons.radio_button_checked
+                          : Icons.radio_button_off,
                       size: 18,
                       color: selected ? AppColors.primary : AppColors.textDim,
                     ),
@@ -217,10 +205,11 @@ class _QuizPageState extends State<QuizPage> {
                     Expanded(
                       child: Text(
                         q.options[optIdx],
-                        style: TextStyle(
-                          fontSize: 12,
+                        style: AppTextStyles.bodySmall.copyWith(
                           color: selected ? AppColors.primary : AppColors.text,
-                          fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
+                          fontWeight: selected
+                              ? FontWeight.w600
+                              : FontWeight.w400,
                         ),
                       ),
                     ),
@@ -246,16 +235,14 @@ class _QuizPageState extends State<QuizPage> {
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: AppColors.primary,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(AppTheme.radiusLarge),
           ),
           child: Column(
             children: [
-              const Text(
+              Text(
                 'HASIL QUIZ',
-                style: TextStyle(
+                style: AppTextStyles.onPrimaryLabel.copyWith(
                   color: Colors.white70,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w700,
                   letterSpacing: 1,
                 ),
               ),
@@ -271,10 +258,9 @@ class _QuizPageState extends State<QuizPage> {
                 child: Center(
                   child: Text(
                     '$score',
-                    style: const TextStyle(
+                    style: AppTextStyles.display.copyWith(
                       color: Colors.white,
                       fontSize: 38,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -287,18 +273,15 @@ class _QuizPageState extends State<QuizPage> {
                         ? 'Bagus! Terus tingkatkan pemahaman Anda.'
                         : 'Jangan menyerah, pelajari kembali materinya.',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.9),
-                  fontSize: 12,
-                ),
+                style: AppTextStyles.onPrimaryBody,
               ),
               const SizedBox(height: 14),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _scoreChip(Icons.check_circle, '$correct Benar', AppColors.accent),
+                  _scoreChip(Icons.check_circle, '$correct Benar'),
                   const SizedBox(width: 10),
-                  _scoreChip(Icons.cancel, '$wrong Salah', Colors.redAccent),
+                  _scoreChip(Icons.cancel, '$wrong Salah'),
                 ],
               ),
             ],
@@ -314,21 +297,14 @@ class _QuizPageState extends State<QuizPage> {
           ),
         ),
         const SizedBox(height: 20),
-        const Text(
-          'Review Jawaban',
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-            color: AppColors.text,
-          ),
-        ),
+        Text('Review Jawaban', style: AppTextStyles.title),
         const SizedBox(height: 10),
         ...List.generate(quizList.length, (i) => _buildReviewCard(i)),
       ],
     );
   }
 
-  Widget _scoreChip(IconData icon, String label, Color color) {
+  Widget _scoreChip(IconData icon, String label) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
@@ -338,16 +314,9 @@ class _QuizPageState extends State<QuizPage> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: color, size: 14),
+          Icon(icon, color: Colors.white, size: 14),
           const SizedBox(width: 5),
-          Text(
-            label,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 11.5,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          Text(label, style: AppTextStyles.onPrimaryLabel),
         ],
       ),
     );
@@ -377,11 +346,7 @@ class _QuizPageState extends State<QuizPage> {
               Expanded(
                 child: Text(
                   'Soal ${index + 1} — ${q.category}',
-                  style: const TextStyle(
-                    fontSize: 10.5,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textDim,
-                  ),
+                  style: AppTextStyles.label,
                 ),
               ),
             ],
@@ -389,12 +354,7 @@ class _QuizPageState extends State<QuizPage> {
           const SizedBox(height: 8),
           Text(
             q.question,
-            style: const TextStyle(
-              fontSize: 12.5,
-              fontWeight: FontWeight.w600,
-              color: AppColors.text,
-              height: 1.4,
-            ),
+            style: AppTextStyles.bodyMedium.copyWith(height: 1.4),
           ),
           const SizedBox(height: 10),
           if (userAnswer != -1)
@@ -436,21 +396,16 @@ class _QuizPageState extends State<QuizPage> {
         children: [
           Text(
             label,
-            style: TextStyle(
-              fontSize: 9,
-              fontWeight: FontWeight.bold,
+            style: AppTextStyles.caption.copyWith(
               color: color,
+              fontWeight: FontWeight.w700,
               letterSpacing: 0.3,
             ),
           ),
           const SizedBox(height: 2),
           Text(
             text,
-            style: TextStyle(
-              fontSize: 11.5,
-              color: color,
-              fontWeight: FontWeight.w600,
-            ),
+            style: AppTextStyles.bodySmallMedium.copyWith(color: color),
           ),
         ],
       ),

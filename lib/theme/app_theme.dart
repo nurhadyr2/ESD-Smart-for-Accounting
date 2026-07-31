@@ -1,30 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-
+/// Palet warna hijau eco-friendly — sesuai gambar referensi
+/// Hijau segar (fresh green), sage muda, dan latar krem/ivory yang terang.
 class AppColors {
   AppColors._();
 
-  static const Color primary = Color(0xFF3E7C4F);       // fresh green (tombol, appbar)
-  static const Color primaryDark = Color(0xFF2C5D3A);   // hijau tua segar
-  static const Color primaryLight = Color(0xFF5A9A6C);  // hijau sedang cerah
-  static const Color accent = Color(0xFF7FB069);        // sage green cerah
-  static const Color accentLight = Color(0xFFE9F2E2);   // sage sangat muda (chip, iconbox)
-  static const Color sage = Color(0xFFA9C39B);          // sage muda
-  static const Color olive = Color(0xFF6B8E5A);         // olive segar
-  static const Color mint = Color(0xFFDCEBD2);          // hijau pastel
+  // ── Warna Primer ─────────────────────────────────────────
+  static const Color primary = Color(0xFF3E7C4F);      // hijau segar
+  static const Color primaryDark = Color(0xFF2C5D3A);  // hijau tua
+  static const Color primaryLight = Color(0xFF5A9A6C); // hijau sedang
+  static const Color accent = Color(0xFF7FB069);       // sage cerah
+  static const Color accentLight = Color(0xFFE9F2E2);  // sage sangat muda
+  static const Color sage = Color(0xFFA9C39B);
+  static const Color olive = Color(0xFF6B8E5A);
+  static const Color mint = Color(0xFFDCEBD2);
 
-  static const Color background = Colors.white; // latar belakang utama
+  // ── Latar & Permukaan ────────────────────────────────────
+  static const Color background = Color(0xFFF6F9F1);
   static const Color card = Colors.white;
-  static const Color cardAlt = Color(0xFFEFF5E9);       
-  static const Color border = Color(0xFFDCE7D3);       
+  static const Color cardAlt = Color(0xFFEFF5E9);
+  static const Color border = Color(0xFFDCE7D3);
   static const Color divider = Color(0xFFE6EEE0);
 
-  // Text
-  static const Color text = Color(0xFF22331F);          // hijau gelap kehitaman
-  static const Color textDim = Color(0xFF64755F);       // abu kehijauan
-  static const Color textMuted = Color(0xFF93A28E);     // abu muda kehijauan
+  // ── Teks ─────────────────────────────────────────────────
+  static const Color text = Color(0xFF22331F);
+  static const Color textDim = Color(0xFF64755F);
+  static const Color textMuted = Color(0xFF93A28E);
 
-  // Status colors
+  // ── Status ───────────────────────────────────────────────
   static const Color warning = Color(0xFFB8860B);
   static const Color warningBg = Color(0xFFFBF3DF);
   static const Color success = Color(0xFF3E7C4F);
@@ -32,20 +36,30 @@ class AppColors {
   static const Color error = Color(0xFFB85C5C);
   static const Color errorBg = Color(0xFFFDECEA);
 
-  // Accent untuk kategori
+  // ── Kategori ─────────────────────────────────────────────
   static const Color categoryGreen = Color(0xFF3E7C4F);
   static const Color categoryYellow = Color(0xFFD9A441);
   static const Color categoryBlue = Color(0xFF6A9EB5);
   static const Color categoryTeal = Color(0xFF5B8A72);
 }
 
+/// Tema aplikasi — Plus Jakarta Sans, tanpa gradient, sudut membulat.
 class AppTheme {
   AppTheme._();
 
+  /// Radius standar komponen
+  static const double radiusSmall = 10;
+  static const double radiusMedium = 14;
+  static const double radiusLarge = 16;
+  static const double radiusPill = 24;
+
   static ThemeData get theme {
+    final textTheme = GoogleFonts.plusJakartaSansTextTheme();
+
     return ThemeData(
       useMaterial3: true,
       scaffoldBackgroundColor: AppColors.background,
+      textTheme: textTheme,
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.primary,
         primary: AppColors.primary,
@@ -55,22 +69,22 @@ class AppTheme {
         onSecondary: Colors.white,
         onSurface: AppColors.text,
       ),
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
         elevation: 0,
         centerTitle: false,
-        titleTextStyle: TextStyle(
+        titleTextStyle: GoogleFonts.plusJakartaSans(
           color: Colors.white,
           fontSize: 16,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
         ),
       ),
       cardTheme: CardThemeData(
         color: AppColors.card,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(radiusLarge),
           side: const BorderSide(color: AppColors.border),
         ),
       ),
@@ -79,8 +93,12 @@ class AppTheme {
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
           elevation: 0,
+          textStyle: GoogleFonts.plusJakartaSans(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+          ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(radiusPill),
           ),
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
         ),
@@ -89,20 +107,26 @@ class AppTheme {
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.primary,
           side: const BorderSide(color: AppColors.primary, width: 1.5),
+          textStyle: GoogleFonts.plusJakartaSans(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+          ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(radiusPill),
           ),
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          foregroundColor: AppColors.primary,
-        ),
+        style: TextButton.styleFrom(foregroundColor: AppColors.primary),
       ),
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.accentLight,
-        labelStyle: const TextStyle(color: AppColors.primary, fontSize: 12),
+        labelStyle: GoogleFonts.plusJakartaSans(
+          color: AppColors.primary,
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
@@ -111,20 +135,18 @@ class AppTheme {
         backgroundColor: AppColors.card,
         indicatorColor: AppColors.accentLight,
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.selected)) {
-            return const TextStyle(
-              color: AppColors.primary,
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-            );
-          }
-          return const TextStyle(color: AppColors.textDim, fontSize: 11);
+          final selected = states.contains(WidgetState.selected);
+          return GoogleFonts.plusJakartaSans(
+            color: selected ? AppColors.primary : AppColors.textDim,
+            fontSize: 11,
+            fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+          );
         }),
         iconTheme: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.selected)) {
-            return const IconThemeData(color: AppColors.primary);
-          }
-          return const IconThemeData(color: AppColors.textDim);
+          final selected = states.contains(WidgetState.selected);
+          return IconThemeData(
+            color: selected ? AppColors.primary : AppColors.textDim,
+          );
         }),
       ),
       progressIndicatorTheme: const ProgressIndicatorThemeData(
@@ -133,9 +155,9 @@ class AppTheme {
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: AppColors.primary,
-        contentTextStyle: const TextStyle(color: Colors.white),
+        contentTextStyle: GoogleFonts.plusJakartaSans(color: Colors.white),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(radiusSmall),
         ),
         behavior: SnackBarBehavior.floating,
       ),
@@ -144,10 +166,10 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        titleTextStyle: const TextStyle(
+        titleTextStyle: GoogleFonts.plusJakartaSans(
           color: AppColors.text,
           fontSize: 18,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );

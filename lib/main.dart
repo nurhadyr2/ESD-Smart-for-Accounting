@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'theme/app_theme.dart';
+import 'theme/app_text_styles.dart';
 import 'data/app_data.dart';
 import 'screens/home_page.dart';
 import 'screens/materi_page.dart';
@@ -89,13 +90,15 @@ class _MainNavigationState extends State<MainNavigation> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'ESD for Accounting',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    style: AppTextStyles.onPrimaryTitle.copyWith(fontSize: 15),
                   ),
                   Text(
                     _currentIndex == -1 ? '' : _titles[_currentIndex],
-                    style: const TextStyle(fontSize: 10.5, color: Colors.white70),
+                    style: AppTextStyles.onPrimaryLabel.copyWith(
+                      color: Colors.white70,
+                    ),
                   ),
                 ],
               ),

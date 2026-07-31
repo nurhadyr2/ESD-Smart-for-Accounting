@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import '../theme/app_text_styles.dart';
 
+/// Tombol outline dengan ikon — gaya konsisten seluruh aplikasi.
 class AppOutlinedButton extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -20,12 +22,13 @@ class AppOutlinedButton extends StatelessWidget {
       label: Text(label),
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric(vertical: 9),
-        textStyle: const TextStyle(fontSize: 12),
+        textStyle: AppTextStyles.bodySmallMedium,
       ),
     );
   }
 }
 
+/// Tombol utama (elevated) dengan ikon.
 class AppElevatedButton extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -48,7 +51,7 @@ class AppElevatedButton extends StatelessWidget {
       label: Text(label),
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(vertical: 10),
-        textStyle: const TextStyle(fontSize: 12),
+        textStyle: AppTextStyles.bodySmallMedium.copyWith(color: Colors.white),
       ),
     );
     if (fullWidth) return SizedBox(width: double.infinity, child: button);
