@@ -49,25 +49,20 @@ class _MainNavigationState extends State<MainNavigation> {
   @override
   Widget build(BuildContext context) {
     final pages = <Widget>[
-      // 0 - Perangkat
       const FileListPage(
         title: 'Perangkat Pembelajaran',
         subtitle:
             'Kumpulan dokumen perangkat pembelajaran akuntansi berbasis ESD yang dapat diunduh dan dipelajari.',
         items: perangkatList,
       ),
-      // 1 - Materi
       const MateriPage(),
-      // 2 - Project
       const FileListPage(
         title: 'Project Tugas',
         subtitle:
             'Daftar project dan lembar kerja yang harus diselesaikan peserta didik.',
         items: projectList,
       ),
-      // 3 - Quiz
       const QuizPage(),
-      // 4 - Siklus
       const FileListPage(
         title: 'Siklus Akuntansi',
         subtitle:

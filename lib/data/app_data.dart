@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-// ============================================================
-// MODEL
-// ============================================================
 
 class NewsItem {
   final String title;
@@ -35,7 +32,7 @@ class MateriItem {
 class MateriSection {
   final String heading;
   final String body;
-  final IconData? imageIcon; // placeholder ilustrasi
+  final IconData? imageIcon;
   final String? imageCaption;
 
   const MateriSection({
@@ -76,9 +73,6 @@ class FileLinkItem {
   });
 }
 
-// ============================================================
-// DATA BERITA (Do You Know — slider)
-// ============================================================
 
 const List<NewsItem> newsList = [
   NewsItem(
@@ -118,9 +112,6 @@ const List<NewsItem> newsList = [
   ),
 ];
 
-// ============================================================
-// DATA MATERI (4 sub bab)
-// ============================================================
 
 const List<MateriItem> materiList = [
   MateriItem(
@@ -279,9 +270,6 @@ const List<MateriItem> materiList = [
   ),
 ];
 
-// ============================================================
-// DATA QUIZ (25 soal)
-// ============================================================
 
 const List<QuizQuestion> quizList = [
   QuizQuestion(
@@ -586,9 +574,6 @@ const List<QuizQuestion> quizList = [
   ),
 ];
 
-// ============================================================
-// DATA PERANGKAT (file/link)
-// ============================================================
 
 const List<FileLinkItem> perangkatList = [
   FileLinkItem(
@@ -625,9 +610,6 @@ const List<FileLinkItem> perangkatList = [
   ),
 ];
 
-// ============================================================
-// DATA SIKLUS (file/link)
-// ============================================================
 
 const List<FileLinkItem> siklusList = [
   FileLinkItem(
@@ -660,9 +642,6 @@ const List<FileLinkItem> siklusList = [
   ),
 ];
 
-// ============================================================
-// DATA PROJECT (file/link)
-// ============================================================
 
 const List<FileLinkItem> projectList = [
   FileLinkItem(

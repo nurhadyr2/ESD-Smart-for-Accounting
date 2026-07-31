@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../data/app_data.dart';
+import '../components/app_cards.dart';
+import '../components/app_typography.dart';
 
 class QuizPage extends StatefulWidget {
   const QuizPage({super.key});
@@ -10,7 +12,6 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  // -1 = belum dijawab
   late List<int> _answers;
   bool _submitted = false;
 
@@ -22,14 +23,6 @@ class _QuizPageState extends State<QuizPage> {
 
   int get _answeredCount => _answers.where((a) => a != -1).length;
 
-  int get _score {
-    int correct = 0;
-    for (int i = 0; i < quizList.length; i++) {
-      if (_answers[i] == quizList[i].correctIndex) correct++;
-    }
-    return (correct / quizList.length * 100).round();
-  }
-
   int get _correctCount {
     int correct = 0;
     for (int i = 0; i < quizList.length; i++) {
@@ -37,6 +30,8 @@ class _QuizPageState extends State<QuizPage> {
     }
     return correct;
   }
+
+  int get _score => (_correctCount / quizList.length * 100).round();
 
   void _submit() {
     if (_answeredCount < quizList.length) {
@@ -80,7 +75,6 @@ class _QuizPageState extends State<QuizPage> {
     return _buildQuizView();
   }
 
-  // ---------- TAMPILAN QUIZ ----------
   Widget _buildQuizView() {
     return Column(
       children: [
@@ -88,15 +82,8 @@ class _QuizPageState extends State<QuizPage> {
           child: ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              // Intro card
-              Container(
-                padding: const EdgeInsets.all(14),
+              AppCard(
                 margin: const EdgeInsets.only(bottom: 16),
-                decoration: BoxDecoration(
-                  color: AppColors.card,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.border),
-                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -118,7 +105,6 @@ class _QuizPageState extends State<QuizPage> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    // Progress
                     Row(
                       children: [
                         Expanded(
@@ -146,13 +132,11 @@ class _QuizPageState extends State<QuizPage> {
                   ],
                 ),
               ),
-              // Daftar soal
               ...List.generate(quizList.length, (i) => _buildQuestionCard(i)),
               const SizedBox(height: 80),
             ],
           ),
         ),
-        // Tombol submit
         Container(
           padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
           decoration: const BoxDecoration(
@@ -182,7 +166,6 @@ class _QuizPageState extends State<QuizPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Meta
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -194,21 +177,7 @@ class _QuizPageState extends State<QuizPage> {
                   color: AppColors.textDim,
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
-                decoration: BoxDecoration(
-                  color: AppColors.accentLight,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  q.category,
-                  style: const TextStyle(
-                    fontSize: 9,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
-                  ),
-                ),
-              ),
+              ChipLabel(text: q.category),
             ],
           ),
           const SizedBox(height: 8),
@@ -222,7 +191,6 @@ class _QuizPageState extends State<QuizPage> {
             ),
           ),
           const SizedBox(height: 10),
-          // Opsi jawaban
           ...List.generate(q.options.length, (optIdx) {
             final selected = _answers[index] == optIdx;
             return GestureDetector(
@@ -266,7 +234,6 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
-  // ---------- TAMPILAN HASIL ----------
   Widget _buildResultView() {
     final score = _score;
     final correct = _correctCount;
@@ -275,7 +242,6 @@ class _QuizPageState extends State<QuizPage> {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        // Kartu skor
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -298,7 +264,6 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               const SizedBox(height: 12),
-              // Lingkaran skor
               Container(
                 width: 110,
                 height: 110,
@@ -344,7 +309,6 @@ class _QuizPageState extends State<QuizPage> {
           ),
         ),
         const SizedBox(height: 16),
-        // Tombol ulangi
         SizedBox(
           width: double.infinity,
           child: OutlinedButton.icon(
@@ -363,7 +327,6 @@ class _QuizPageState extends State<QuizPage> {
           ),
         ),
         const SizedBox(height: 10),
-        // Review tiap soal
         ...List.generate(quizList.length, (i) => _buildReviewCard(i)),
       ],
     );
@@ -399,16 +362,11 @@ class _QuizPageState extends State<QuizPage> {
     final userAnswer = _answers[index];
     final isCorrect = userAnswer == q.correctIndex;
 
-    return Container(
+    return AppCard(
       margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: isCorrect ? AppColors.success.withValues(alpha: 0.4) : AppColors.error.withValues(alpha: 0.4),
-        ),
-      ),
+      borderColor: isCorrect
+          ? AppColors.success.withValues(alpha: 0.4)
+          : AppColors.error.withValues(alpha: 0.4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -443,7 +401,6 @@ class _QuizPageState extends State<QuizPage> {
             ),
           ),
           const SizedBox(height: 10),
-          // Jawaban user
           if (userAnswer != -1)
             _reviewRow(
               'Jawaban Anda',
@@ -459,7 +416,6 @@ class _QuizPageState extends State<QuizPage> {
               AppColors.warningBg,
             ),
           const SizedBox(height: 6),
-          // Jawaban benar
           _reviewRow(
             'Jawaban Benar',
             q.options[q.correctIndex],

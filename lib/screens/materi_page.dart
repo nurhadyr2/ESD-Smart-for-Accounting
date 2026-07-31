@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../data/app_data.dart';
+import '../components/app_cards.dart';
+import '../components/app_typography.dart';
 
 class MateriPage extends StatelessWidget {
   const MateriPage({super.key});
@@ -10,18 +12,10 @@ class MateriPage extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        const Text(
-          'Materi Pembelajaran',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: AppColors.text,
-          ),
-        ),
-        const SizedBox(height: 4),
-        const Text(
-          'Pilih sub-bab materi untuk memulai sesi belajar mandiri. Setiap modul dilengkapi dengan teori dan contoh kasus.',
-          style: TextStyle(fontSize: 12, color: AppColors.textDim, height: 1.5),
+        const PageHeader(
+          title: 'Materi Pembelajaran',
+          subtitle:
+              'Pilih sub-bab materi untuk memulai sesi belajar mandiri. Setiap modul dilengkapi dengan teori dan contoh kasus.',
         ),
         const SizedBox(height: 16),
         ...materiList.asMap().entries.map((entry) {
@@ -58,78 +52,52 @@ class _MateriCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AppCard(
       margin: const EdgeInsets.only(bottom: 10),
-      child: Material(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(12),
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(12),
-          child: Container(
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.border),
-            ),
-            child: Row(
+      onTap: onTap,
+      child: Row(
+        children: [
+          IconBox(icon: materi.icon, size: 40, iconSize: 20),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: AppColors.accentLight,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Icon(materi.icon, color: AppColors.primary, size: 20),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'BAB $number',
-                        style: const TextStyle(
-                          fontSize: 9,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 0.5,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        materi.title,
-                        style: const TextStyle(
-                          fontSize: 13.5,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.text,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        materi.subtitle,
-                        style: const TextStyle(
-                          fontSize: 11,
-                          color: AppColors.textDim,
-                        ),
-                      ),
-                    ],
+                Text(
+                  'BAB $number',
+                  style: const TextStyle(
+                    fontSize: 9,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.5,
+                    color: AppColors.primary,
                   ),
                 ),
-                const Icon(Icons.chevron_right, color: AppColors.textDim),
+                const SizedBox(height: 2),
+                Text(
+                  materi.title,
+                  style: const TextStyle(
+                    fontSize: 13.5,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.text,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  materi.subtitle,
+                  style: const TextStyle(
+                    fontSize: 11,
+                    color: AppColors.textDim,
+                  ),
+                ),
               ],
             ),
           ),
-        ),
+          const Icon(Icons.chevron_right, color: AppColors.textDim),
+        ],
       ),
     );
   }
 }
-
-// ============================================================
-// HALAMAN DETAIL MATERI
-// ============================================================
 
 class MateriDetailPage extends StatelessWidget {
   final MateriItem materi;
@@ -149,56 +117,12 @@ class MateriDetailPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // Header
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [AppColors.primary, AppColors.primaryLight],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Icon(materi.icon, color: Colors.white, size: 26),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        materi.title,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        materi.subtitle,
-                        style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.85),
-                          fontSize: 11.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+          GradientHeaderCard(
+            icon: materi.icon,
+            title: materi.title,
+            subtitle: materi.subtitle,
           ),
           const SizedBox(height: 16),
-          // Sections
           ...materi.sections.map((section) => _SectionCard(section: section)),
         ],
       ),
@@ -213,14 +137,9 @@ class _SectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AppCard(
       margin: const EdgeInsets.only(bottom: 14),
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -243,7 +162,6 @@ class _SectionCard extends StatelessWidget {
           ),
           if (section.imageIcon != null) ...[
             const SizedBox(height: 12),
-            // Placeholder ilustrasi/gambar
             Container(
               width: double.infinity,
               height: 110,

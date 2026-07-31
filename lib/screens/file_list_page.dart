@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 import '../data/app_data.dart';
+import '../components/app_typography.dart';
+import '../components/app_buttons.dart';
 
-/// Halaman reusable untuk menampilkan daftar file/link
-/// (dipakai oleh Perangkat, Siklus, dan Project)
 class FileListPage extends StatelessWidget {
   final String title;
   final String subtitle;
@@ -51,23 +51,7 @@ class FileListPage extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: AppColors.text,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          subtitle,
-          style: const TextStyle(
-            fontSize: 12,
-            color: AppColors.textDim,
-            height: 1.5,
-          ),
-        ),
+        PageHeader(title: title, subtitle: subtitle),
         const SizedBox(height: 16),
         ...items.map((item) => _FileCard(
               item: item,
@@ -158,43 +142,29 @@ class _FileCard extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: OutlinedButton.icon(
+                  child: AppOutlinedButton(
+                    icon: Icons.visibility_outlined,
+                    label: 'Lihat',
                     onPressed: onOpen,
-                    icon: const Icon(Icons.visibility_outlined, size: 16),
-                    label: const Text('Lihat'),
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 9),
-                      textStyle: const TextStyle(fontSize: 12),
-                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
-                  child: ElevatedButton.icon(
+                  child: AppElevatedButton(
+                    icon: Icons.download,
+                    label: 'Unduh',
                     onPressed: onOpen,
-                    icon: const Icon(Icons.download, size: 16),
-                    label: const Text('Unduh'),
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 9),
-                      textStyle: const TextStyle(fontSize: 12),
-                    ),
                   ),
                 ),
               ],
             ),
           ] else ...[
             const SizedBox(height: 10),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: onOpen,
-                icon: const Icon(Icons.open_in_new, size: 16),
-                label: const Text('Buka Link'),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  textStyle: const TextStyle(fontSize: 12),
-                ),
-              ),
+            AppElevatedButton(
+              icon: Icons.open_in_new,
+              label: 'Buka Link',
+              onPressed: onOpen,
+              fullWidth: true,
             ),
           ],
         ],

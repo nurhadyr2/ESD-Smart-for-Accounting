@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../data/app_data.dart';
+import '../components/app_cards.dart';
+import '../components/app_typography.dart';
 
 class HomePage extends StatefulWidget {
   final void Function(int index)? onNavigate;
@@ -20,7 +22,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    // Auto-slide berita setiap 4 detik
     _autoSlideTimer = Timer.periodic(const Duration(seconds: 4), (_) {
       if (!mounted || !_newsController.hasClients) return;
       final next = (_newsIndex + 1) % newsList.length;
@@ -46,13 +47,13 @@ class _HomePageState extends State<HomePage> {
       children: [
         _buildHeroCard(),
         const SizedBox(height: 20),
-        _buildSectionTitle('Menu Utama', 'PILIH MODUL'),
+        const SectionTitle(title: 'Menu Utama', trailing: 'PILIH MODUL'),
         const SizedBox(height: 10),
         _buildMateriCard(),
         const SizedBox(height: 12),
         _buildMenuGrid(),
         const SizedBox(height: 20),
-        _buildSectionTitle('Do You Know?', 'BERITA & FAKTA'),
+        const SectionTitle(title: 'Do You Know?', trailing: 'BERITA & FAKTA'),
         const SizedBox(height: 10),
         _buildNewsSlider(),
         const SizedBox(height: 8),
@@ -63,7 +64,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ---------- Hero Card ----------
   Widget _buildHeroCard() {
     return Container(
       decoration: BoxDecoration(
@@ -146,33 +146,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ---------- Section Title ----------
-  Widget _buildSectionTitle(String title, String trailing) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-            color: AppColors.text,
-          ),
-        ),
-        Text(
-          trailing,
-          style: const TextStyle(
-            fontSize: 10,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 0.5,
-            color: AppColors.textDim,
-          ),
-        ),
-      ],
-    );
-  }
-
-  // ---------- Materi Card (besar) ----------
   Widget _buildMateriCard() {
     return _MenuCardBig(
       icon: Icons.menu_book,
@@ -183,7 +156,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ---------- Grid 2x2 ----------
   Widget _buildMenuGrid() {
     final items = [
       _MiniMenuData(Icons.assignment, 'Quiz', '25 Soal Evaluasi', 3),
@@ -208,7 +180,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ---------- News Slider (Do You Know) ----------
   Widget _buildNewsSlider() {
     return SizedBox(
       height: 190,
@@ -246,12 +217,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ---------- Elemen Manufaktur Hijau ----------
   Widget _buildGreenManufacturingSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionTitle('Manufaktur Hijau', 'GREEN MANUFACTURING'),
+        const SectionTitle(title: 'Manufaktur Hijau', trailing: 'GREEN MANUFACTURING'),
         const SizedBox(height: 10),
         SizedBox(
           height: 110,
@@ -324,10 +294,6 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-// ============================================================
-// WIDGET PENDUKUNG
-// ============================================================
-
 class _MenuCardBig extends StatelessWidget {
   final IconData icon;
   final String eyebrow;
@@ -345,63 +311,44 @@ class _MenuCardBig extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: AppColors.card,
-      borderRadius: BorderRadius.circular(14),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(14),
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: AppColors.border),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return AppCard(
+      padding: const EdgeInsets.all(16),
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: 38,
-                    height: 38,
-                    decoration: BoxDecoration(
-                      color: AppColors.accentLight,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Icon(icon, color: AppColors.primary, size: 20),
-                  ),
-                  const Icon(Icons.chevron_right, color: AppColors.textDim),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Text(
-                eyebrow,
-                style: const TextStyle(
-                  fontSize: 9.5,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 0.5,
-                  color: AppColors.textDim,
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.text,
-                ),
-              ),
-              const SizedBox(height: 3),
-              Text(
-                subtitle,
-                style: const TextStyle(fontSize: 11, color: AppColors.textDim),
-              ),
+              IconBox(icon: icon, size: 38, iconSize: 20),
+              const Icon(Icons.chevron_right, color: AppColors.textDim),
             ],
           ),
-        ),
+          const SizedBox(height: 10),
+          Text(
+            eyebrow,
+            style: const TextStyle(
+              fontSize: 9.5,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.5,
+              color: AppColors.textDim,
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: AppColors.text,
+            ),
+          ),
+          const SizedBox(height: 3),
+          Text(
+            subtitle,
+            style: const TextStyle(fontSize: 11, color: AppColors.textDim),
+          ),
+        ],
       ),
     );
   }
@@ -424,50 +371,31 @@ class _MiniMenuCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: AppColors.card,
-      borderRadius: BorderRadius.circular(12),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.border),
+    return AppCard(
+      padding: const EdgeInsets.all(12),
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconBox(icon: data.icon, size: 30, iconSize: 16),
+          const Spacer(),
+          Text(
+            data.title,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+              color: AppColors.text,
+            ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                  color: AppColors.accentLight,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Icon(data.icon, color: AppColors.primary, size: 16),
-              ),
-              const Spacer(),
-              Text(
-                data.title,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.text,
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                data.subtitle,
-                style: const TextStyle(fontSize: 10, color: AppColors.textDim),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
+          const SizedBox(height: 2),
+          Text(
+            data.subtitle,
+            style: const TextStyle(fontSize: 10, color: AppColors.textDim),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-        ),
+        ],
       ),
     );
   }
@@ -490,7 +418,6 @@ class _NewsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header ilustrasi
           Container(
             height: 72,
             width: double.infinity,
@@ -536,7 +463,6 @@ class _NewsCard extends StatelessWidget {
               ],
             ),
           ),
-          // Isi berita
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(12),
