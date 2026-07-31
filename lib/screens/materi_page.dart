@@ -190,14 +190,7 @@ class _SectionCard extends StatelessWidget {
                           vertical: 6,
                         ),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                            colors: [
-                              AppColors.primaryDark.withValues(alpha: 0.75),
-                              Colors.transparent,
-                            ],
-                          ),
+                          color: AppColors.primaryDark.withValues(alpha: 0.8),
                           borderRadius: const BorderRadius.vertical(
                             bottom: Radius.circular(10),
                           ),

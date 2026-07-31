@@ -7,6 +7,7 @@ class AppCard extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final VoidCallback? onTap;
   final Color? borderColor;
+  final Color? backgroundColor;
 
   const AppCard({
     super.key,
@@ -15,15 +16,16 @@ class AppCard extends StatelessWidget {
     this.margin,
     this.onTap,
     this.borderColor,
+    this.backgroundColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    final borderRadius = BorderRadius.circular(12);
+    final borderRadius = BorderRadius.circular(16);
     return Container(
       margin: margin,
       child: Material(
-        color: AppColors.card,
+        color: backgroundColor ?? AppColors.card,
         borderRadius: borderRadius,
         child: InkWell(
           onTap: onTap,
@@ -65,46 +67,44 @@ class IconBox extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         color: color ?? AppColors.accentLight,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Icon(icon, color: iconColor ?? AppColors.primary, size: iconSize),
     );
   }
 }
 
-class GradientHeaderCard extends StatelessWidget {
+/// Header card dengan warna solid (tanpa gradient)
+class SolidHeaderCard extends StatelessWidget {
   final IconData icon;
   final String title;
   final String subtitle;
-  final List<Color>? colors;
+  final Color? color;
 
-  const GradientHeaderCard({
+  const SolidHeaderCard({
     super.key,
     required this.icon,
     required this.title,
     required this.subtitle,
-    this.colors,
+    this.color,
   });
 
   @override
   Widget build(BuildContext context) {
+    final bgColor = color ?? AppColors.primary;
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: colors ?? const [AppColors.primary, AppColors.primaryLight],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(14),
+        color: bgColor,
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(10),
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(icon, color: Colors.white, size: 26),
           ),
@@ -134,6 +134,34 @@ class GradientHeaderCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Alias untuk backward compatibility — sekarang menggunakan solid color
+class GradientHeaderCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final List<Color>? colors;
+
+  const GradientHeaderCard({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    this.colors,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Gunakan warna pertama dari list, atau primary sebagai default
+    final bgColor = colors?.first ?? AppColors.primary;
+    return SolidHeaderCard(
+      icon: icon,
+      title: title,
+      subtitle: subtitle,
+      color: bgColor,
     );
   }
 }
