@@ -1,0 +1,204 @@
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../theme/app_theme.dart';
+import '../data/app_data.dart';
+
+/// Halaman reusable untuk menampilkan daftar file/link
+/// (dipakai oleh Perangkat, Siklus, dan Project)
+class FileListPage extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final List<FileLinkItem> items;
+  final bool showButtons;
+
+  const FileListPage({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.items,
+    this.showButtons = true,
+  });
+
+  Future<void> _openLink(BuildContext context, String url) async {
+    final uri = Uri.parse(url);
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Tidak dapat membuka: $url'),
+              backgroundColor: AppColors.error,
+            ),
+          );
+        }
+      }
+    } catch (_) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Link: $url'),
+            backgroundColor: AppColors.primary,
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: AppColors.text,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          subtitle,
+          style: const TextStyle(
+            fontSize: 12,
+            color: AppColors.textDim,
+            height: 1.5,
+          ),
+        ),
+        const SizedBox(height: 16),
+        ...items.map((item) => _FileCard(
+              item: item,
+              showButtons: showButtons,
+              onOpen: () => _openLink(context, item.url),
+            )),
+      ],
+    );
+  }
+}
+
+class _FileCard extends StatelessWidget {
+  final FileLinkItem item;
+  final bool showButtons;
+  final VoidCallback onOpen;
+
+  const _FileCard({
+    required this.item,
+    required this.showButtons,
+    required this.onOpen,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: AppColors.accentLight,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(item.icon, color: AppColors.primary, size: 19),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      item.title,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.text,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      item.description,
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: AppColors.textDim,
+                        height: 1.45,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              const Icon(Icons.insert_drive_file, size: 12, color: AppColors.textDim),
+              const SizedBox(width: 5),
+              Text(
+                item.meta,
+                style: const TextStyle(fontSize: 10, color: AppColors.textDim),
+              ),
+            ],
+          ),
+          if (showButtons) ...[
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: onOpen,
+                    icon: const Icon(Icons.visibility_outlined, size: 16),
+                    label: const Text('Lihat'),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 9),
+                      textStyle: const TextStyle(fontSize: 12),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: onOpen,
+                    icon: const Icon(Icons.download, size: 16),
+                    label: const Text('Unduh'),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 9),
+                      textStyle: const TextStyle(fontSize: 12),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ] else ...[
+            const SizedBox(height: 10),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: onOpen,
+                icon: const Icon(Icons.open_in_new, size: 16),
+                label: const Text('Buka Link'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  textStyle: const TextStyle(fontSize: 12),
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
