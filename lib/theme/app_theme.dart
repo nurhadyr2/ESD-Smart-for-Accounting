@@ -1,41 +1,42 @@
 import 'package:flutter/material.dart';
 
+
 class AppColors {
   AppColors._();
 
-  static const Color primary = Color(0xFF2D5A3D);       // forest green (tombol, header)
-  static const Color primaryDark = Color(0xFF1E3D28);   // hijau sangat tua
-  static const Color primaryLight = Color(0xFF4A7C59);  // hijau sedang
-  static const Color accent = Color(0xFF7FB069);        // sage green (aksen)
-  static const Color accentLight = Color(0xFFE8F5E9);   // hijau sangat muda (background chip)
-  static const Color sage = Color(0xFFA8C5A0);          // sage muda
-  static const Color olive = Color(0xFF6B8E5A);         // olive green
-  static const Color mint = Color(0xFFC8E6C9);          // mint/hijau pastel
+  static const Color primary = Color(0xFF3E7C4F);       // fresh green (tombol, appbar)
+  static const Color primaryDark = Color(0xFF2C5D3A);   // hijau tua segar
+  static const Color primaryLight = Color(0xFF5A9A6C);  // hijau sedang cerah
+  static const Color accent = Color(0xFF7FB069);        // sage green cerah
+  static const Color accentLight = Color(0xFFE9F2E2);   // sage sangat muda (chip, iconbox)
+  static const Color sage = Color(0xFFA9C39B);          // sage muda
+  static const Color olive = Color(0xFF6B8E5A);         // olive segar
+  static const Color mint = Color(0xFFDCEBD2);          // hijau pastel
 
-  static const Color background = Color(0xFFF5F9F3);    // latar kehijauan sangat lembut
+  static const Color background = Colors.white; // latar belakang utama
   static const Color card = Colors.white;
-  static const Color cardAlt = Color(0xFFF0F7EE);       // card alternatif
-  static const Color border = Color(0xFFD4E4D0);        // border hijau muda
-  static const Color divider = Color(0xFFE0EBDD);
+  static const Color cardAlt = Color(0xFFEFF5E9);       
+  static const Color border = Color(0xFFDCE7D3);       
+  static const Color divider = Color(0xFFE6EEE0);
 
   // Text
-  static const Color text = Color(0xFF1A2E1F);          // hijau gelap kehitaman
-  static const Color textDim = Color(0xFF5A6B5D);       // abu kehijauan
-  static const Color textMuted = Color(0xFF8A9B8D);     // abu muda kehijauan
+  static const Color text = Color(0xFF22331F);          // hijau gelap kehitaman
+  static const Color textDim = Color(0xFF64755F);       // abu kehijauan
+  static const Color textMuted = Color(0xFF93A28E);     // abu muda kehijauan
 
   // Status colors
-  static const Color warning = Color(0xFFB8860B);       // kuning tua/amber
-  static const Color warningBg = Color(0xFFFEF8E7);
-  static const Color success = Color(0xFF2D5A3D);       // sama dengan primary
-  static const Color successBg = Color(0xFFE8F5E9);
-  static const Color error = Color(0xFFB85C5C);         // merah bata lembut
+  static const Color warning = Color(0xFFB8860B);
+  static const Color warningBg = Color(0xFFFBF3DF);
+  static const Color success = Color(0xFF3E7C4F);
+  static const Color successBg = Color(0xFFE9F2E2);
+  static const Color error = Color(0xFFB85C5C);
   static const Color errorBg = Color(0xFFFDECEA);
 
-  // Accent untuk kategori (seperti di gambar: hijau, kuning, biru muda)
-  static const Color categoryGreen = Color(0xFF2D5A3D);
-  static const Color categoryYellow = Color(0xFFD4A017);
-  static const Color categoryBlue = Color(0xFF5B8FA8);
-  static const Color categoryTeal = Color(0xFF4A7C6F);
+  // Accent untuk kategori
+  static const Color categoryGreen = Color(0xFF3E7C4F);
+  static const Color categoryYellow = Color(0xFFD9A441);
+  static const Color categoryBlue = Color(0xFF6A9EB5);
+  static const Color categoryTeal = Color(0xFF5B8A72);
 }
 
 class AppTheme {
@@ -79,7 +80,7 @@ class AppTheme {
           foregroundColor: Colors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24), // lebih rounded seperti gambar
+            borderRadius: BorderRadius.circular(24),
           ),
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
         ),

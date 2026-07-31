@@ -227,27 +227,27 @@ class _HomePageState extends State<HomePage> {
               _GreenChip(
                 icon: Icons.recycling,
                 label: 'Daur Ulang\nLimbah',
-                color: Color(0xFF2E7D32),
+                color: AppColors.primary,
               ),
               _GreenChip(
                 icon: Icons.solar_power,
                 label: 'Energi\nTerbarukan',
-                color: Color(0xFFF9A825),
+                color: AppColors.categoryYellow,
               ),
               _GreenChip(
                 icon: Icons.water_drop,
                 label: 'Konservasi\nAir',
-                color: Color(0xFF0277BD),
+                color: AppColors.categoryBlue,
               ),
               _GreenChip(
                 icon: Icons.co2,
                 label: 'Kurangi\nEmisi CO₂',
-                color: Color(0xFF558B2F),
+                color: AppColors.accent,
               ),
               _GreenChip(
                 icon: Icons.forest,
                 label: 'Hijaukan\nIndustri',
-                color: Color(0xFF00695C),
+                color: AppColors.categoryTeal,
               ),
             ],
           ),
