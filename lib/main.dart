@@ -124,8 +124,8 @@ class _MainNavigationState extends State<MainNavigation> {
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
         destinations: const [
           NavigationDestination(
-            icon: Icon(Icons.handyman_outlined),
-            selectedIcon: Icon(Icons.handyman, color: AppColors.primary),
+            icon: Icon(Icons.devices_outlined),
+            selectedIcon: Icon(Icons.devices, color: AppColors.primary),
             label: 'Perangkat',
           ),
           NavigationDestination(
