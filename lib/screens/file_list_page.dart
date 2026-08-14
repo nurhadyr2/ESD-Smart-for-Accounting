@@ -104,17 +104,7 @@ class _FileCard extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(item.title, style: AppTextStyles.titleSmall),
-                    const SizedBox(height: 3),
-                    Text(
-                      item.description,
-                      style: AppTextStyles.bodySmall.copyWith(height: 1.45),
-                    ),
-                  ],
-                ),
+                child: Text(item.title, style: AppTextStyles.titleSmall),
               ),
             ],
           ),

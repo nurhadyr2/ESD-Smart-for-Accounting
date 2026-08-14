@@ -17,10 +17,33 @@ class EsdAccountingApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ESD for Accounting',
+      title: 'ESD Smart for Accounting',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.theme,
+      builder: (context, child) => AppBackground(child: child!),
       home: const MainNavigation(),
+    );
+  }
+}
+
+class AppBackground extends StatelessWidget {
+  final Widget child;
+
+  const AppBackground({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: const BoxDecoration(
+        color: AppColors.background,
+        image: DecorationImage(
+          image: AssetImage('assets/images/background.png'),
+          fit: BoxFit.cover,
+          alignment: Alignment.bottomCenter,
+          opacity: 0.28,
+        ),
+      ),
+      child: child,
     );
   }
 }
@@ -36,11 +59,11 @@ class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = -1;
 
   static const List<String> _titles = [
-    'Perangkat',
-    'Materi',
     'Project',
+    'Materials',
+    'Teaching Tools',
     'Quiz',
-    'Siklus',
+    'Case Study',
   ];
 
   void _onNavigate(int index) {
@@ -50,24 +73,17 @@ class _MainNavigationState extends State<MainNavigation> {
   @override
   Widget build(BuildContext context) {
     final pages = <Widget>[
-      const FileListPage(
-        title: 'Perangkat Pembelajaran',
-        subtitle:
-            'Kumpulan dokumen perangkat pembelajaran akuntansi berbasis ESD yang dapat diunduh dan dipelajari.',
-        items: perangkatList,
-      ),
+      const FileListPage(title: 'Project', subtitle: '', items: projectList),
       const MateriPage(),
       const FileListPage(
-        title: 'Project Tugas',
-        subtitle:
-            'Daftar project dan lembar kerja yang harus diselesaikan peserta didik.',
-        items: projectList,
+        title: 'Teaching Tools',
+        subtitle: '',
+        items: perangkatList,
       ),
       const QuizPage(),
       const FileListPage(
-        title: 'Siklus Akuntansi',
-        subtitle:
-            'Akses materi, video, dan lembar kerja seputar siklus akuntansi.',
+        title: 'Case Study',
+        subtitle: '',
         items: siklusList,
         showButtons: false,
       ),
@@ -91,7 +107,7 @@ class _MainNavigationState extends State<MainNavigation> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'ESD for Accounting',
+                    'ESD Smart for Accounting',
                     style: AppTextStyles.onPrimaryTitle.copyWith(fontSize: 15),
                   ),
                   Text(
@@ -119,34 +135,34 @@ class _MainNavigationState extends State<MainNavigation> {
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentIndex == -1 ? 0 : _currentIndex,
         onDestinationSelected: _onNavigate,
-        backgroundColor: AppColors.card,
-        indicatorColor: AppColors.accentLight,
+        backgroundColor: AppColors.primary,
+        indicatorColor: Colors.white.withValues(alpha: 0.18),
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
         destinations: const [
           NavigationDestination(
-            icon: Icon(Icons.devices_outlined),
-            selectedIcon: Icon(Icons.devices, color: AppColors.primary),
-            label: 'Perangkat',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.menu_book_outlined),
-            selectedIcon: Icon(Icons.menu_book, color: AppColors.primary),
-            label: 'Materi',
-          ),
-          NavigationDestination(
             icon: Icon(Icons.description_outlined),
-            selectedIcon: Icon(Icons.description, color: AppColors.primary),
+            selectedIcon: Icon(Icons.description, color: Colors.white),
             label: 'Project',
           ),
           NavigationDestination(
+            icon: Icon(Icons.menu_book_outlined),
+            selectedIcon: Icon(Icons.menu_book, color: Colors.white),
+            label: 'Materials',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.devices_outlined),
+            selectedIcon: Icon(Icons.devices, color: Colors.white),
+            label: 'Teaching Tools',
+          ),
+          NavigationDestination(
             icon: Icon(Icons.assignment_outlined),
-            selectedIcon: Icon(Icons.assignment, color: AppColors.primary),
+            selectedIcon: Icon(Icons.assignment, color: Colors.white),
             label: 'Quiz',
           ),
           NavigationDestination(
             icon: Icon(Icons.sync_alt),
-            selectedIcon: Icon(Icons.sync_alt, color: AppColors.primary),
-            label: 'Siklus',
+            selectedIcon: Icon(Icons.sync_alt, color: Colors.white),
+            label: 'Case Study',
           ),
         ],
       ),

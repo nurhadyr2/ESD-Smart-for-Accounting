@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
-
 class NewsItem {
   final String title;
   final String category;
   final String summary;
   final IconData icon;
+  final String? imageUrl;
 
   const NewsItem({
     required this.title,
     required this.category,
     required this.summary,
     required this.icon,
+    this.imageUrl,
   });
 }
 
@@ -73,7 +74,6 @@ class FileLinkItem {
   });
 }
 
-
 const List<NewsItem> newsList = [
   NewsItem(
     title: 'Manufaktur Hijau: Masa Depan Industri Indonesia',
@@ -112,10 +112,9 @@ const List<NewsItem> newsList = [
   ),
 ];
 
-
 const List<MateriItem> materiList = [
   MateriItem(
-    title: 'Jurnal Transaksi',
+    title: 'Journal Entries',
     subtitle: 'Pencatatan awal transaksi keuangan',
     icon: Icons.receipt_long,
     sections: [
@@ -161,7 +160,7 @@ const List<MateriItem> materiList = [
     ],
   ),
   MateriItem(
-    title: 'Buku Besar',
+    title: 'General Ledger',
     subtitle: 'Pengelompokan akun-akun transaksi',
     icon: Icons.menu_book,
     sections: [
@@ -197,7 +196,7 @@ const List<MateriItem> materiList = [
     ],
   ),
   MateriItem(
-    title: 'Jurnal Penyesuaian',
+    title: 'Adjusting Entries',
     subtitle: 'Penyesuaian saldo akhir periode',
     icon: Icons.edit_note,
     sections: [
@@ -234,7 +233,7 @@ const List<MateriItem> materiList = [
     ],
   ),
   MateriItem(
-    title: 'Laporan Keuangan',
+    title: 'Financial Statement',
     subtitle: 'Hasil akhir siklus akuntansi',
     icon: Icons.bar_chart,
     sections: [
@@ -269,7 +268,6 @@ const List<MateriItem> materiList = [
     ],
   ),
 ];
-
 
 const List<QuizQuestion> quizList = [
   QuizQuestion(
@@ -309,7 +307,8 @@ const List<QuizQuestion> quizList = [
     correctIndex: 2,
   ),
   QuizQuestion(
-    question: 'Jurnal yang dibuat pada akhir periode untuk menyesuaikan saldo akun disebut…',
+    question:
+        'Jurnal yang dibuat pada akhir periode untuk menyesuaikan saldo akun disebut…',
     category: 'Jurnal Penyesuaian',
     options: [
       'Jurnal umum',
@@ -323,13 +322,7 @@ const List<QuizQuestion> quizList = [
   QuizQuestion(
     question: 'Proses memindahkan catatan dari jurnal ke buku besar disebut…',
     category: 'Buku Besar',
-    options: [
-      'Jurnalizing',
-      'Posting',
-      'Adjusting',
-      'Closing',
-      'Balancing',
-    ],
+    options: ['Jurnalizing', 'Posting', 'Adjusting', 'Closing', 'Balancing'],
     correctIndex: 1,
   ),
   QuizQuestion(
@@ -345,7 +338,8 @@ const List<QuizQuestion> quizList = [
     correctIndex: 2,
   ),
   QuizQuestion(
-    question: 'Jika perusahaan membeli peralatan secara tunai, maka jurnalnya adalah…',
+    question:
+        'Jika perusahaan membeli peralatan secara tunai, maka jurnalnya adalah…',
     category: 'Jurnal Transaksi',
     options: [
       'Peralatan (D), Kas (K)',
@@ -357,7 +351,8 @@ const List<QuizQuestion> quizList = [
     correctIndex: 0,
   ),
   QuizQuestion(
-    question: 'Laporan yang menunjukkan pendapatan dan beban suatu periode adalah…',
+    question:
+        'Laporan yang menunjukkan pendapatan dan beban suatu periode adalah…',
     category: 'Laporan Keuangan',
     options: [
       'Neraca',
@@ -381,7 +376,8 @@ const List<QuizQuestion> quizList = [
     correctIndex: 1,
   ),
   QuizQuestion(
-    question: 'Penyusutan aset tetap dicatat dalam jurnal penyesuaian dengan mendebit akun…',
+    question:
+        'Penyusutan aset tetap dicatat dalam jurnal penyesuaian dengan mendebit akun…',
     category: 'Jurnal Penyesuaian',
     options: [
       'Aset tetap',
@@ -407,29 +403,19 @@ const List<QuizQuestion> quizList = [
   QuizQuestion(
     question: 'Pendapatan diterima di muka pada awalnya dicatat sebagai…',
     category: 'Jurnal Penyesuaian',
-    options: [
-      'Pendapatan',
-      'Aset',
-      'Kewajiban',
-      'Ekuitas',
-      'Beban',
-    ],
+    options: ['Pendapatan', 'Aset', 'Kewajiban', 'Ekuitas', 'Beban'],
     correctIndex: 2,
   ),
   QuizQuestion(
-    question: 'Dalam konteks manufaktur hijau, biaya pengelolaan limbah pabrik dicatat sebagai…',
+    question:
+        'Dalam konteks manufaktur hijau, biaya pengelolaan limbah pabrik dicatat sebagai…',
     category: 'Akuntansi Lingkungan',
-    options: [
-      'Aset',
-      'Beban operasional',
-      'Kewajiban',
-      'Pendapatan',
-      'Modal',
-    ],
+    options: ['Aset', 'Beban operasional', 'Kewajiban', 'Pendapatan', 'Modal'],
     correctIndex: 1,
   ),
   QuizQuestion(
-    question: 'Laporan yang menggambarkan posisi aset, kewajiban, dan ekuitas pada tanggal tertentu adalah…',
+    question:
+        'Laporan yang menggambarkan posisi aset, kewajiban, dan ekuitas pada tanggal tertentu adalah…',
     category: 'Laporan Keuangan',
     options: [
       'Laporan laba rugi',
@@ -441,7 +427,8 @@ const List<QuizQuestion> quizList = [
     correctIndex: 1,
   ),
   QuizQuestion(
-    question: 'Bentuk buku besar yang memiliki kolom saldo sehingga saldo akun langsung terlihat adalah…',
+    question:
+        'Bentuk buku besar yang memiliki kolom saldo sehingga saldo akun langsung terlihat adalah…',
     category: 'Buku Besar',
     options: [
       'Bentuk T',
@@ -513,7 +500,8 @@ const List<QuizQuestion> quizList = [
     correctIndex: 2,
   ),
   QuizQuestion(
-    question: 'Perusahaan membayar beban listrik Rp 500.000. Jurnal yang benar adalah…',
+    question:
+        'Perusahaan membayar beban listrik Rp 500.000. Jurnal yang benar adalah…',
     category: 'Jurnal Transaksi',
     options: [
       'Kas (D) Rp 500.000, Beban Listrik (K) Rp 500.000',
@@ -537,7 +525,8 @@ const List<QuizQuestion> quizList = [
     correctIndex: 0,
   ),
   QuizQuestion(
-    question: 'Investasi panel surya untuk pabrik dalam manufaktur hijau dicatat sebagai…',
+    question:
+        'Investasi panel surya untuk pabrik dalam manufaktur hijau dicatat sebagai…',
     category: 'Akuntansi Lingkungan',
     options: [
       'Beban operasional',
@@ -561,7 +550,8 @@ const List<QuizQuestion> quizList = [
     correctIndex: 1,
   ),
   QuizQuestion(
-    question: 'Jika total debit neraca saldo Rp 50.000.000, maka total kreditnya adalah…',
+    question:
+        'Jika total debit neraca saldo Rp 50.000.000, maka total kreditnya adalah…',
     category: 'Buku Besar',
     options: [
       'Kurang dari Rp 50.000.000',
@@ -573,7 +563,6 @@ const List<QuizQuestion> quizList = [
     correctIndex: 2,
   ),
 ];
-
 
 const List<FileLinkItem> perangkatList = [
   FileLinkItem(
@@ -610,11 +599,11 @@ const List<FileLinkItem> perangkatList = [
   ),
 ];
 
-
 const List<FileLinkItem> siklusList = [
   FileLinkItem(
     title: 'Link Soal Evaluasi',
-    description: 'Akses langsung ke materi dan latihan soal evaluasi siklus akuntansi.',
+    description:
+        'Akses langsung ke materi dan latihan soal evaluasi siklus akuntansi.',
     meta: 'Google Forms • Online',
     icon: Icons.link,
     url: 'https://forms.gle/soal-evaluasi-siklus',
@@ -628,20 +617,21 @@ const List<FileLinkItem> siklusList = [
   ),
   FileLinkItem(
     title: 'Video Siklus Akuntansi',
-    description: 'Video pembelajaran animasi alur siklus akuntansi perusahaan dagang dan jasa.',
+    description:
+        'Video pembelajaran animasi alur siklus akuntansi perusahaan dagang dan jasa.',
     meta: 'YouTube • 15 menit',
     icon: Icons.play_circle,
     url: 'https://youtube.com/siklus-akuntansi',
   ),
   FileLinkItem(
     title: 'Infografis Siklus Akuntansi',
-    description: 'Diagram visual tahapan siklus akuntansi dari transaksi hingga laporan keuangan.',
+    description:
+        'Diagram visual tahapan siklus akuntansi dari transaksi hingga laporan keuangan.',
     meta: 'PNG • 1.2 MB',
     icon: Icons.image,
     url: 'https://drive.google.com/infografis-siklus',
   ),
 ];
-
 
 const List<FileLinkItem> projectList = [
   FileLinkItem(

@@ -15,8 +15,10 @@ class PageHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(title, style: AppTextStyles.headline),
-        const SizedBox(height: 6),
-        Text(subtitle, style: AppTextStyles.bodySmall.copyWith(height: 1.5)),
+        if (subtitle.isNotEmpty) ...[
+          const SizedBox(height: 6),
+          Text(subtitle, style: AppTextStyles.bodySmall.copyWith(height: 1.5)),
+        ],
       ],
     );
   }
@@ -25,9 +27,9 @@ class PageHeader extends StatelessWidget {
 /// Judul section dengan label kecil di kanan.
 class SectionTitle extends StatelessWidget {
   final String title;
-  final String trailing;
+  final String? trailing;
 
-  const SectionTitle({super.key, required this.title, required this.trailing});
+  const SectionTitle({super.key, required this.title, this.trailing});
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +37,15 @@ class SectionTitle extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(title, style: AppTextStyles.title),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-          decoration: BoxDecoration(
-            color: AppColors.accentLight,
-            borderRadius: BorderRadius.circular(12),
+        if (trailing != null && trailing!.isNotEmpty)
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            decoration: BoxDecoration(
+              color: AppColors.accentLight,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(trailing!, style: AppTextStyles.labelPrimary),
           ),
-          child: Text(trailing, style: AppTextStyles.labelPrimary),
-        ),
       ],
     );
   }

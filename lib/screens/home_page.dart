@@ -48,13 +48,13 @@ class _HomePageState extends State<HomePage> {
       children: [
         _buildHeroCard(),
         const SizedBox(height: 20),
-        const SectionTitle(title: 'Menu Utama', trailing: 'PILIH MODUL'),
+        const SectionTitle(title: 'Menu Utama'),
         const SizedBox(height: 10),
         _buildMateriCard(),
         const SizedBox(height: 12),
         _buildMenuGrid(),
         const SizedBox(height: 20),
-        const SectionTitle(title: 'Do You Know?', trailing: 'BERITA & FAKTA'),
+        const SectionTitle(title: 'News Highlight'),
         const SizedBox(height: 10),
         _buildNewsSlider(),
         const SizedBox(height: 8),
@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'Selamat Datang di\nESD for Accounting',
+                  'Welcome to ESD Smart for Accounting',
                   style: AppTextStyles.onPrimaryTitle,
                 ),
               ),
@@ -96,39 +96,9 @@ class _HomePageState extends State<HomePage> {
           ),
           const SizedBox(height: 10),
           Text(
-            'Media Pembelajaran Akuntansi Praktis & Offline dengan wawasan manufaktur hijau.',
+            'Count Today, Sustain Tomorrow',
             style: AppTextStyles.onPrimaryBody,
           ),
-          const SizedBox(height: 14),
-          Row(
-            children: [
-              _heroTag('v0.1'),
-              const SizedBox(width: 8),
-              _heroTag('Offline Access', icon: Icons.wifi_off),
-              const SizedBox(width: 8),
-              _heroTag('Green', icon: Icons.eco),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _heroTag(String text, {IconData? icon}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (icon != null) ...[
-            Icon(icon, color: Colors.white, size: 11),
-            const SizedBox(width: 4),
-          ],
-          Text(text, style: AppTextStyles.onPrimaryLabel),
         ],
       ),
     );
@@ -137,19 +107,18 @@ class _HomePageState extends State<HomePage> {
   Widget _buildMateriCard() {
     return _MenuCardBig(
       icon: Icons.menu_book,
-      eyebrow: 'MODUL PEMBELAJARAN',
-      title: 'Materi',
-      subtitle: 'Eksplorasi 4 sub-bab materi akuntansi lengkap.',
+      eyebrow: 'LEARNING MODULE',
+      title: 'Materials',
       onTap: () => widget.onNavigate?.call(1),
     );
   }
 
   Widget _buildMenuGrid() {
     final items = [
-      _MiniMenuData(Icons.assignment, 'Quiz', '25 Soal Evaluasi', 3),
-      _MiniMenuData(Icons.sync_alt, 'Siklus', 'Alur Akuntansi', 4),
-      _MiniMenuData(Icons.handyman, 'Perangkat', 'Info Pembelajaran', 0),
-      _MiniMenuData(Icons.description, 'Project', 'Lembar Kerja', 2),
+      _MiniMenuData(Icons.assignment, 'Quiz', 3),
+      _MiniMenuData(Icons.sync_alt, 'Case Study', 4),
+      _MiniMenuData(Icons.description, 'Project', 0),
+      _MiniMenuData(Icons.handyman, 'Teaching Tools', 2),
     ];
 
     return GridView.count(
@@ -209,10 +178,7 @@ class _HomePageState extends State<HomePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle(
-          title: 'Manufaktur Hijau',
-          trailing: 'GREEN MANUFACTURING',
-        ),
+        const SectionTitle(title: 'Green Manufacturing'),
         const SizedBox(height: 10),
         SizedBox(
           height: 110,
@@ -291,14 +257,12 @@ class _MenuCardBig extends StatelessWidget {
   final IconData icon;
   final String eyebrow;
   final String title;
-  final String subtitle;
   final VoidCallback? onTap;
 
   const _MenuCardBig({
     required this.icon,
     required this.eyebrow,
     required this.title,
-    required this.subtitle,
     this.onTap,
   });
 
@@ -321,8 +285,6 @@ class _MenuCardBig extends StatelessWidget {
           Text(eyebrow, style: AppTextStyles.label),
           const SizedBox(height: 2),
           Text(title, style: AppTextStyles.title),
-          const SizedBox(height: 3),
-          Text(subtitle, style: AppTextStyles.bodySmall),
         ],
       ),
     );
@@ -332,10 +294,9 @@ class _MenuCardBig extends StatelessWidget {
 class _MiniMenuData {
   final IconData icon;
   final String title;
-  final String subtitle;
   final int navIndex;
 
-  const _MiniMenuData(this.icon, this.title, this.subtitle, this.navIndex);
+  const _MiniMenuData(this.icon, this.title, this.navIndex);
 }
 
 class _MiniMenuCard extends StatelessWidget {
@@ -356,13 +317,6 @@ class _MiniMenuCard extends StatelessWidget {
           IconBox(icon: data.icon, size: 30, iconSize: 16),
           const Spacer(),
           Text(data.title, style: AppTextStyles.titleSmall),
-          const SizedBox(height: 2),
-          Text(
-            data.subtitle,
-            style: AppTextStyles.caption,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
         ],
       ),
     );
@@ -391,16 +345,17 @@ class _NewsCard extends StatelessWidget {
             width: double.infinity,
             color: AppColors.primary,
             child: Stack(
+              fit: StackFit.expand,
               children: [
-                Positioned(
-                  right: -10,
-                  bottom: -10,
-                  child: Icon(
-                    news.icon,
-                    size: 80,
-                    color: Colors.white.withValues(alpha: 0.15),
-                  ),
-                ),
+                if (news.imageUrl != null)
+                  Image.network(
+                    news.imageUrl!,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, _, _) =>
+                        _NewsCoverFallback(icon: news.icon),
+                  )
+                else
+                  _NewsCoverFallback(icon: news.icon),
                 Padding(
                   padding: const EdgeInsets.all(12),
                   child: Align(
@@ -452,6 +407,27 @@ class _NewsCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _NewsCoverFallback extends StatelessWidget {
+  final IconData icon;
+
+  const _NewsCoverFallback({required this.icon});
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: Transform.translate(
+        offset: const Offset(10, 10),
+        child: Icon(
+          icon,
+          size: 80,
+          color: Colors.white.withValues(alpha: 0.15),
+        ),
       ),
     );
   }

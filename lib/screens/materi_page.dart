@@ -13,11 +13,7 @@ class MateriPage extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        const PageHeader(
-          title: 'Materi Pembelajaran',
-          subtitle:
-              'Eksplorasi 4 sub-bab materi akuntansi lengkap dengan studi kasus manufaktur hijau.',
-        ),
+        const PageHeader(title: 'Materials', subtitle: ''),
         const SizedBox(height: 16),
         ...List.generate(materiList.length, (i) {
           final m = materiList[i];

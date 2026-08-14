@@ -7,11 +7,11 @@ class AppColors {
   AppColors._();
 
   // ── Warna Primer ─────────────────────────────────────────
-  static const Color primary = Color(0xFF3E7C4F);      // hijau segar
-  static const Color primaryDark = Color(0xFF2C5D3A);  // hijau tua
+  static const Color primary = Color(0xFF3E7C4F); // hijau segar
+  static const Color primaryDark = Color(0xFF2C5D3A); // hijau tua
   static const Color primaryLight = Color(0xFF5A9A6C); // hijau sedang
-  static const Color accent = Color(0xFF7FB069);       // sage cerah
-  static const Color accentLight = Color(0xFFE9F2E2);  // sage sangat muda
+  static const Color accent = Color(0xFF7FB069); // sage cerah
+  static const Color accentLight = Color(0xFFE9F2E2); // sage sangat muda
   static const Color sage = Color(0xFFA9C39B);
   static const Color olive = Color(0xFF6B8E5A);
   static const Color mint = Color(0xFFDCEBD2);
@@ -54,11 +54,11 @@ class AppTheme {
   static const double radiusPill = 24;
 
   static ThemeData get theme {
-    final textTheme = GoogleFonts.plusJakartaSansTextTheme();
+    final textTheme = GoogleFonts.poppinsTextTheme();
 
     return ThemeData(
       useMaterial3: true,
-      scaffoldBackgroundColor: AppColors.background,
+      scaffoldBackgroundColor: Colors.transparent,
       textTheme: textTheme,
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.primary,
@@ -74,7 +74,7 @@ class AppTheme {
         foregroundColor: Colors.white,
         elevation: 0,
         centerTitle: false,
-        titleTextStyle: GoogleFonts.plusJakartaSans(
+        titleTextStyle: GoogleFonts.poppins(
           color: Colors.white,
           fontSize: 16,
           fontWeight: FontWeight.w700,
@@ -93,7 +93,7 @@ class AppTheme {
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
           elevation: 0,
-          textStyle: GoogleFonts.plusJakartaSans(
+          textStyle: GoogleFonts.poppins(
             fontSize: 13,
             fontWeight: FontWeight.w600,
           ),
@@ -107,7 +107,7 @@ class AppTheme {
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.primary,
           side: const BorderSide(color: AppColors.primary, width: 1.5),
-          textStyle: GoogleFonts.plusJakartaSans(
+          textStyle: GoogleFonts.poppins(
             fontSize: 13,
             fontWeight: FontWeight.w600,
           ),
@@ -122,31 +122,27 @@ class AppTheme {
       ),
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.accentLight,
-        labelStyle: GoogleFonts.plusJakartaSans(
+        labelStyle: GoogleFonts.poppins(
           color: AppColors.primary,
           fontSize: 12,
           fontWeight: FontWeight.w600,
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       ),
       navigationBarTheme: NavigationBarThemeData(
-        backgroundColor: AppColors.card,
-        indicatorColor: AppColors.accentLight,
+        backgroundColor: AppColors.primary,
+        indicatorColor: Colors.white.withValues(alpha: 0.18),
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           final selected = states.contains(WidgetState.selected);
-          return GoogleFonts.plusJakartaSans(
-            color: selected ? AppColors.primary : AppColors.textDim,
+          return GoogleFonts.poppins(
+            color: selected ? Colors.white : Colors.white70,
             fontSize: 11,
             fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
           );
         }),
         iconTheme: WidgetStateProperty.resolveWith((states) {
           final selected = states.contains(WidgetState.selected);
-          return IconThemeData(
-            color: selected ? AppColors.primary : AppColors.textDim,
-          );
+          return IconThemeData(color: selected ? Colors.white : Colors.white70);
         }),
       ),
       progressIndicatorTheme: const ProgressIndicatorThemeData(
@@ -155,7 +151,7 @@ class AppTheme {
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: AppColors.primary,
-        contentTextStyle: GoogleFonts.plusJakartaSans(color: Colors.white),
+        contentTextStyle: GoogleFonts.poppins(color: Colors.white),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(radiusSmall),
         ),
@@ -163,10 +159,8 @@ class AppTheme {
       ),
       dialogTheme: DialogThemeData(
         backgroundColor: AppColors.card,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        titleTextStyle: GoogleFonts.plusJakartaSans(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        titleTextStyle: GoogleFonts.poppins(
           color: AppColors.text,
           fontSize: 18,
           fontWeight: FontWeight.w700,
