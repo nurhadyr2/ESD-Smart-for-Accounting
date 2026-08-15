@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../theme/app_text_styles.dart';
-import '../data/app_data.dart';
+import '../data/client_quiz.dart';
 import '../components/app_cards.dart';
-import '../components/app_typography.dart';
 
 class QuizPage extends StatefulWidget {
   const QuizPage({super.key});
@@ -14,6 +13,7 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   late List<int> _answers;
+  bool _started = false;
   bool _submitted = false;
 
   @override
@@ -32,7 +32,7 @@ class _QuizPageState extends State<QuizPage> {
     return correct;
   }
 
-  int get _score => (_correctCount / quizList.length * 100).round();
+  int get _score => _correctCount * 4;
 
   void _submit() {
     if (_answeredCount < quizList.length) {
@@ -66,14 +66,49 @@ class _QuizPageState extends State<QuizPage> {
   void _reset() {
     setState(() {
       _answers = List.filled(quizList.length, -1);
+      _started = false;
       _submitted = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (!_started) return _buildStartView();
     if (_submitted) return _buildResultView();
     return _buildQuizView();
+  }
+
+  Widget _buildStartView() {
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(24),
+        child: AppCard(
+          child: Column(
+            children: [
+              const Icon(
+                Icons.quiz_outlined,
+                size: 52,
+                color: AppColors.primary,
+              ),
+              const SizedBox(height: 18),
+              Text(
+                'Udah cukup paham sama materinya? Now it’s time to test your understanding with a quick quiz. Let’s see how far you’ve got!',
+                textAlign: TextAlign.center,
+                style: AppTextStyles.body.copyWith(height: 1.6),
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => setState(() => _started = true),
+                  child: const Text('Start Quiz'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildQuizView() {
@@ -88,13 +123,6 @@ class _QuizPageState extends State<QuizPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Quiz Evaluasi', style: AppTextStyles.title),
-                    const SizedBox(height: 6),
-                    Text(
-                      'Jawablah 25 pertanyaan berikut untuk menguji pemahaman Anda. Skor akan dihitung otomatis setelah menekan tombol Submit.',
-                      style: AppTextStyles.bodySmall.copyWith(height: 1.5),
-                    ),
-                    const SizedBox(height: 10),
                     Row(
                       children: [
                         Expanded(
@@ -158,14 +186,29 @@ class _QuizPageState extends State<QuizPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (q.preface != null) ...[
+            AppCard(
+              margin: const EdgeInsets.only(bottom: 12),
+              backgroundColor: AppColors.accentLight,
+              child: Text(
+                q.preface!,
+                style: AppTextStyles.bodySmall.copyWith(height: 1.6),
+              ),
+            ),
+          ],
+          if (q.imageAsset != null) ...[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+              child: Image.asset(q.imageAsset!, fit: BoxFit.contain),
+            ),
+            const SizedBox(height: 12),
+          ],
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'PERTANYAAN ${index + 1} / ${quizList.length}',
                 style: AppTextStyles.label,
               ),
-              ChipLabel(text: q.category),
             ],
           ),
           const SizedBox(height: 8),
@@ -266,16 +309,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               const SizedBox(height: 12),
-              Text(
-                score >= 80
-                    ? 'Luar biasa! Pemahaman Anda sangat baik.'
-                    : score >= 60
-                        ? 'Bagus! Terus tingkatkan pemahaman Anda.'
-                        : 'Jangan menyerah, pelajari kembali materinya.',
-                textAlign: TextAlign.center,
-                style: AppTextStyles.onPrimaryBody,
-              ),
-              const SizedBox(height: 14),
+              const SizedBox(height: 2),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -344,10 +378,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
               const SizedBox(width: 8),
               Expanded(
-                child: Text(
-                  'Soal ${index + 1} — ${q.category}',
-                  style: AppTextStyles.label,
-                ),
+                child: Text('Soal ${index + 1}', style: AppTextStyles.label),
               ),
             ],
           ),

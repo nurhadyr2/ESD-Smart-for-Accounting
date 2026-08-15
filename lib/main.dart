@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'theme/app_theme.dart';
 import 'theme/app_text_styles.dart';
-import 'data/app_data.dart';
+import 'data/client_content.dart';
 import 'screens/home_page.dart';
 import 'screens/materi_page.dart';
 import 'screens/quiz_page.dart';
@@ -84,8 +84,7 @@ class _MainNavigationState extends State<MainNavigation> {
       const FileListPage(
         title: 'Case Study',
         subtitle: '',
-        items: siklusList,
-        showButtons: false,
+        items: caseStudyList,
       ),
     ];
 
@@ -122,50 +121,124 @@ class _MainNavigationState extends State<MainNavigation> {
           ],
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.home_outlined),
-            tooltip: 'Beranda',
-            onPressed: () => setState(() => _currentIndex = -1),
-          ),
+          if (_currentIndex != -1)
+            IconButton(
+              icon: const Icon(Icons.home_outlined),
+              tooltip: 'Beranda',
+              onPressed: () => setState(() => _currentIndex = -1),
+            ),
         ],
       ),
       body: _currentIndex == -1
           ? HomePage(onNavigate: _onNavigate)
           : IndexedStack(index: _currentIndex, children: pages),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex == -1 ? 0 : _currentIndex,
-        onDestinationSelected: _onNavigate,
-        backgroundColor: AppColors.primary,
-        indicatorColor: Colors.white.withValues(alpha: 0.18),
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.description_outlined),
-            selectedIcon: Icon(Icons.description, color: Colors.white),
-            label: 'Project',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.menu_book_outlined),
-            selectedIcon: Icon(Icons.menu_book, color: Colors.white),
-            label: 'Materials',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.devices_outlined),
-            selectedIcon: Icon(Icons.devices, color: Colors.white),
-            label: 'Teaching Tools',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.assignment_outlined),
-            selectedIcon: Icon(Icons.assignment, color: Colors.white),
-            label: 'Quiz',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.sync_alt),
-            selectedIcon: Icon(Icons.sync_alt, color: Colors.white),
-            label: 'Case Study',
-          ),
-        ],
+      bottomNavigationBar: _AppNavigationBar(
+        selectedIndex: _currentIndex,
+        onSelected: _onNavigate,
       ),
     );
   }
+}
+
+class _AppNavigationBar extends StatelessWidget {
+  final int selectedIndex;
+  final ValueChanged<int> onSelected;
+
+  const _AppNavigationBar({
+    required this.selectedIndex,
+    required this.onSelected,
+  });
+
+  static const _items = [
+    _NavigationItem(Icons.description_outlined, Icons.description, 'Project'),
+    _NavigationItem(Icons.menu_book_outlined, Icons.menu_book, 'Materials'),
+    _NavigationItem(Icons.devices_outlined, Icons.devices, 'Teaching Tools'),
+    _NavigationItem(Icons.assignment_outlined, Icons.assignment, 'Quiz'),
+    _NavigationItem(Icons.sync_alt, Icons.sync_alt, 'Case Study'),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.primary,
+      child: SafeArea(
+        top: false,
+        child: SizedBox(
+          height: 72,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: List.generate(_items.length, (index) {
+              final item = _items[index];
+              final selected = selectedIndex == index;
+              return Expanded(
+                child: Semantics(
+                  selected: selected,
+                  button: true,
+                  label: item.label,
+                  child: InkWell(
+                    onTap: () => onSelected(index),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(2, 6, 2, 4),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 36,
+                            height: 30,
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: selected
+                                    ? Colors.white.withValues(alpha: 0.18)
+                                    : Colors.transparent,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                selected ? item.selectedIcon : item.icon,
+                                size: 21,
+                                color: selected ? Colors.white : Colors.white70,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 3),
+                          SizedBox(
+                            height: 24,
+                            child: Center(
+                              child: Text(
+                                item.label,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.center,
+                                style: AppTextStyles.caption.copyWith(
+                                  color: selected
+                                      ? Colors.white
+                                      : Colors.white70,
+                                  fontSize: 9.5,
+                                  height: 1.2,
+                                  fontWeight: selected
+                                      ? FontWeight.w700
+                                      : FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _NavigationItem {
+  final IconData icon;
+  final IconData selectedIcon;
+  final String label;
+
+  const _NavigationItem(this.icon, this.selectedIcon, this.label);
 }

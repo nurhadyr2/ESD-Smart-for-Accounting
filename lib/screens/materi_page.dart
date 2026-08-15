@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 import '../theme/app_text_styles.dart';
-import '../data/app_data.dart';
+import '../data/client_content.dart';
 import '../components/app_cards.dart';
 import '../components/app_typography.dart';
+import 'file_list_page.dart';
 
 class MateriPage extends StatelessWidget {
   const MateriPage({super.key});
@@ -60,13 +62,15 @@ class _MateriCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(materi.title, style: AppTextStyles.titleSmall),
-                const SizedBox(height: 3),
-                Text(
-                  materi.subtitle,
-                  style: AppTextStyles.bodySmall,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                if (materi.subtitle.isNotEmpty) ...[
+                  const SizedBox(height: 3),
+                  Text(
+                    materi.subtitle,
+                    style: AppTextStyles.bodySmall,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ],
             ),
           ),
@@ -82,6 +86,18 @@ class MateriDetailPage extends StatelessWidget {
 
   const MateriDetailPage({super.key, required this.materi});
 
+  Future<void> _openLink(BuildContext context, String url) async {
+    final opened = await launchUrl(
+      Uri.parse(url),
+      mode: LaunchMode.externalApplication,
+    );
+    if (!opened && context.mounted) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Tidak dapat membuka: $url')));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,6 +112,15 @@ class MateriDetailPage extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           ...materi.sections.map((s) => _SectionCard(section: s)),
+          ...materi.files.map(
+            (file) => FileLinkCard(
+              item: file,
+              showButtons: true,
+              onOpen: file.url == null
+                  ? null
+                  : () => _openLink(context, file.url!),
+            ),
+          ),
         ],
       ),
     );
@@ -107,20 +132,31 @@ class _SectionCard extends StatelessWidget {
 
   const _SectionCard({required this.section});
 
+  Future<void> _openLink() async {
+    if (section.linkUrl == null) return;
+    await launchUrl(
+      Uri.parse(section.linkUrl!),
+      mode: LaunchMode.externalApplication,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppCard(
       margin: const EdgeInsets.only(bottom: 12),
+      onTap: section.linkUrl == null ? null : _openLink,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(section.heading, style: AppTextStyles.titleSmall),
-          const SizedBox(height: 8),
+          if (section.heading.isNotEmpty) ...[
+            Text(section.heading, style: AppTextStyles.titleSmall),
+            const SizedBox(height: 8),
+          ],
           Text(
             section.body,
             style: AppTextStyles.bodySmall.copyWith(height: 1.6),
           ),
-          if (section.imageIcon != null) ...[
+          if (section.imageAsset != null) ...[
             const SizedBox(height: 12),
             Container(
               width: double.infinity,
@@ -131,17 +167,7 @@ class _SectionCard extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  Icon(section.imageIcon, size: 40, color: AppColors.primary),
-                  if (section.imageCaption != null) ...[
-                    const SizedBox(height: 8),
-                    Text(
-                      section.imageCaption!,
-                      textAlign: TextAlign.center,
-                      style: AppTextStyles.caption.copyWith(
-                        color: AppColors.textDim,
-                      ),
-                    ),
-                  ],
+                  Image.asset(section.imageAsset!, fit: BoxFit.contain),
                 ],
               ),
             ),

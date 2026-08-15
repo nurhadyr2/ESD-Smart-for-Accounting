@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 import '../theme/app_text_styles.dart';
-import '../data/app_data.dart';
+import '../data/client_content.dart';
 import '../components/app_typography.dart';
 import '../components/app_buttons.dart';
 
@@ -55,10 +55,12 @@ class FileListPage extends StatelessWidget {
         PageHeader(title: title, subtitle: subtitle),
         const SizedBox(height: 16),
         ...items.map(
-          (item) => _FileCard(
+          (item) => FileLinkCard(
             item: item,
             showButtons: showButtons,
-            onOpen: () => _openLink(context, item.url),
+            onOpen: item.url == null
+                ? null
+                : () => _openLink(context, item.url!),
           ),
         ),
       ],
@@ -66,12 +68,13 @@ class FileListPage extends StatelessWidget {
   }
 }
 
-class _FileCard extends StatelessWidget {
+class FileLinkCard extends StatelessWidget {
   final FileLinkItem item;
   final bool showButtons;
-  final VoidCallback onOpen;
+  final VoidCallback? onOpen;
 
-  const _FileCard({
+  const FileLinkCard({
+    super.key,
     required this.item,
     required this.showButtons,
     required this.onOpen,
@@ -104,20 +107,20 @@ class _FileCard extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: Text(item.title, style: AppTextStyles.titleSmall),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(item.title, style: AppTextStyles.titleSmall),
+                    if (item.description.isNotEmpty) ...[
+                      const SizedBox(height: 3),
+                      Text(
+                        item.description,
+                        style: AppTextStyles.bodySmall.copyWith(height: 1.45),
+                      ),
+                    ],
+                  ],
+                ),
               ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              const Icon(
-                Icons.insert_drive_file,
-                size: 12,
-                color: AppColors.textDim,
-              ),
-              const SizedBox(width: 5),
-              Text(item.meta, style: AppTextStyles.caption),
             ],
           ),
           if (showButtons) ...[
