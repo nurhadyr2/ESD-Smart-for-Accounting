@@ -2,17 +2,13 @@ import 'package:flutter/material.dart';
 
 class NewsItem {
   final String title;
-  final String category;
-  final String summary;
-  final IconData icon;
-  final String? imageUrl;
+  final String imageAsset;
+  final String url;
 
   const NewsItem({
     required this.title,
-    required this.category,
-    required this.summary,
-    required this.icon,
-    this.imageUrl,
+    required this.imageAsset,
+    required this.url,
   });
 }
 
@@ -76,7 +72,41 @@ class FileLinkItem {
   });
 }
 
-const List<NewsItem> newsList = [];
+const List<NewsItem> newsList = [
+  NewsItem(
+    title:
+        'Tindak Cepat Aduan Pencemaran Udara: KLH/BPLH Hentikan Operasional Boiler Biomassa PT Panca Kraft Pratama',
+    imageAsset: 'assets/images/news_1.jpg',
+    url:
+        'https://kemenlh.go.id/news/detail/tindak-cepat-aduan-pencemaran-udara-klhbplh-hentikan-operasional-boiler-biomassa-pt-panca-kraft-pratama',
+  ),
+  NewsItem(
+    title:
+        'KLH Segel Pabrik Pengolahan Oli Bekas di Tangerang, Diduga Cemari Lingkungan Warga',
+    imageAsset: 'assets/images/news_2.jpg',
+    url: 'https://youtu.be/dYL-B-JaWwE?si=9v8VbC0koFElnMb0',
+  ),
+  NewsItem(
+    title:
+        'Tindak Lanjut Keluhan Masyarakat, Menteri LH Tugaskan Deputi Gakkum Segel Pabrik Pemanfaatan Oli Bekas Ilegal di Tangerang',
+    imageAsset: 'assets/images/news_3.jpg',
+    url:
+        'https://kemenlh.go.id/news/detail/tindak-lanjut-keluhan-masyarakat-menteri-lh-tugaskan-deputi-gakkum-segel-pabrik-pemanfaatan-oli-bekas-ilegal-di-tangerang',
+  ),
+  NewsItem(
+    title:
+        'Sungai Cisadane Tercemar, Warga Diimbau Tak Konsumsi Ikan yang Mati | OneNews Update',
+    imageAsset: 'assets/images/news_4.jpg',
+    url: 'https://youtu.be/OCYixq4TwF0?si=f-w8_Gs6WeNhM8un',
+  ),
+  NewsItem(
+    title:
+        'DLH Jabar temukan debu pabrik kapur-tambang Cipatat lampaui baku mutu',
+    imageAsset: 'assets/images/news_5.webp',
+    url:
+        'https://www.antaranews.com/berita/5655183/dlh-jabar-temukan-debu-pabrik-kapur-tambang-cipatat-lampaui-baku-mutu',
+  ),
+];
 
 const List<FileLinkItem> worksheetList = [
   FileLinkItem(
@@ -147,6 +177,8 @@ const List<FileLinkItem> projectList = [
     description:
         'Lihat lebih dekat aktivitas UMKM manufaktur dan impact-nya terhadap sekitar!',
     icon: Icons.business,
+    url:
+        'https://drive.google.com/file/d/1vAFJ-jyIDm3VIJwL7Cd34u5Xg57Ffscp/view?usp=drive_link',
   ),
 ];
 
@@ -166,6 +198,11 @@ const List<MateriItem> materiList = [
     title: 'Introduction',
     icon: Icons.info_outline,
     sections: [
+      MateriSection(
+        heading: '',
+        body: '',
+        imageAsset: 'assets/images/manufacturing_company.png',
+      ),
       MateriSection(
         heading: 'Journal Entries',
         body:
@@ -225,6 +262,27 @@ Laporan Arus Kas: Tracker duit beneran yang masuk dan keluar (cashflow).''',
         body:
             'Selain laporan keuangan, perusahaan juga punya Sustainability Report yang nunjukin gimana bisnis dijalankan secara bertanggung jawab. Laporan ini ngebahas impact perusahaan dari sisi lingkungan, sosial, dan tata kelola, mulai dari penggunaan sumber daya, kepedulian terhadap karyawan dan masyarakat, sampai cara perusahaan menjalankan bisnis dengan baik. Jadi, perusahaan nggak cuma ngejar profit, tapi juga mikirin impact-nya buat masa depan.',
       ),
+      MateriSection(
+        heading: 'Alur Produksi Manufaktur',
+        body: '',
+        imageAsset: 'assets/images/alur_produksi_manufaktur.png',
+      ),
+      MateriSection(
+        heading: 'Bahan Baku (Raw Material)',
+        body:
+            'Bahan baku itu bahan utama yang nantinya bakal diolah jadi produk. Di tahap ini, limbah bisa muncul kalau bahannya rusak atau udah nggak layak dipakai.',
+      ),
+      MateriSection(
+        heading: 'Barang Dalam Proses (Work in Process)',
+        body:
+            ' Ini kondisi saat bahan baku udah mulai diproses, tapi produknya belum selesai atau belum siap dijual. Nah, biasanya di tahap ini lumayan banyak sisa produksi yang muncul.',
+      ),
+      MateriSection(
+        heading: 'Persediaan Barang Jadi (Finished Goods)',
+        body:
+            ' Ini produk yang proses produksinya udah selesai dan tinggal disimpan atau dijual ke konsumen. ',
+      ),
+      MateriSection(heading: 'Jenis Biaya Manufaktur', body: ''),
     ],
   ),
   MateriItem(
@@ -573,7 +631,7 @@ Rp700.000
     ],
   ),
   MateriItem(
-    title: 'General ledger',
+    title: 'General Ledger',
     icon: Icons.menu_book,
     sections: [
       MateriSection(

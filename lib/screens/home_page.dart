@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 import '../theme/app_text_styles.dart';
 import '../data/client_content.dart';
@@ -141,7 +142,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildNewsSlider() {
     return SizedBox(
-      height: 190,
+      height: 280,
       child: PageView.builder(
         controller: _newsController,
         itemCount: newsList.length,
@@ -248,105 +249,39 @@ class _NewsCard extends StatelessWidget {
 
   const _NewsCard({required this.news});
 
+  Future<void> _openNews() async {
+    await launchUrl(Uri.parse(news.url), mode: LaunchMode.externalApplication);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.card,
+    return Material(
+      color: AppColors.card,
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
-        border: Border.all(color: AppColors.border),
+        side: const BorderSide(color: AppColors.border),
       ),
       clipBehavior: Clip.antiAlias,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 72,
-            width: double.infinity,
-            color: AppColors.primary,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                if (news.imageUrl != null)
-                  Image.network(
-                    news.imageUrl!,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, _, _) =>
-                        _NewsCoverFallback(icon: news.icon),
-                  )
-                else
-                  _NewsCoverFallback(icon: news.icon),
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 3,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        news.category,
-                        style: AppTextStyles.onPrimaryLabel.copyWith(
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+      child: InkWell(
+        onTap: _openNews,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 150,
+              width: double.infinity,
+              child: Image.asset(news.imageAsset, fit: BoxFit.cover),
             ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    news.title,
-                    style: AppTextStyles.bodyMedium.copyWith(height: 1.3),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Expanded(
-                    child: Text(
-                      news.summary,
-                      style: AppTextStyles.bodySmall.copyWith(height: 1.4),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Text(
+                  news.title,
+                  style: AppTextStyles.bodyMedium.copyWith(height: 1.3),
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _NewsCoverFallback extends StatelessWidget {
-  final IconData icon;
-
-  const _NewsCoverFallback({required this.icon});
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomRight,
-      child: Transform.translate(
-        offset: const Offset(10, 10),
-        child: Icon(
-          icon,
-          size: 80,
-          color: Colors.white.withValues(alpha: 0.15),
+          ],
         ),
       ),
     );

@@ -152,12 +152,14 @@ class _SectionCard extends StatelessWidget {
             Text(section.heading, style: AppTextStyles.titleSmall),
             const SizedBox(height: 8),
           ],
-          Text(
-            section.body,
-            style: AppTextStyles.bodySmall.copyWith(height: 1.6),
-          ),
+          if (section.body.isNotEmpty)
+            Text(
+              section.body,
+              style: AppTextStyles.bodySmall.copyWith(height: 1.6),
+            ),
           if (section.imageAsset != null) ...[
-            const SizedBox(height: 12),
+            if (section.heading.isNotEmpty || section.body.isNotEmpty)
+              const SizedBox(height: 12),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
